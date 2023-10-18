@@ -1,4 +1,4 @@
 <?php 
-    define("URL", "http://proyectoperez.com/gato-preto/");
+    define("URL", "http://localhost/firaBarcelona/firaBarcelona/");
     define("action_default","index");
 ?>
