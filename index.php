@@ -1,18 +1,32 @@
 <?php
-include 'controlador/pedidoControlador.php';
-include 'config/constantes.php';
+    include_once 'controller/pedidoController.php';
+    include_once 'config/parameters.php';
 
-
-    if(isset($_GET['controlador'])){
-        
+    if(!isset($_GET['controller'])){
+        //Si no se pasa nada se pasara la pagina principal de pedidos
+        header("Location:". URL ."?controller=pedido");
     }else{
-        $nombre_controlador = $_GET['controlador'].'controlador';
+        $nombre_controller = $_GET['controller'].'Controller';
 
-        if(class_exists($nombre_controlador)){
-            echo $nombre_controlador.' SI existe';
+        if(class_exists($nombre_controller)){
+            //Miramos si nos pasa una accion, en caso contrario mostramos accion por defecto
+
+            $controller = new $nombre_controller();
+
+            if(isset($_GET['acction'])){
+                $acction = $_GET['acction'];
+            }else{
+                $acction = action_default;
+            }
+
+            $controller->$acction();
+        
         }else{
-            echo $nombre_controlador.' NO existe';
+            header("Location:". URL ."?controller=pedido");
         }
+
     }
+
+
 
 ?>
