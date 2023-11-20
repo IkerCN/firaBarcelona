@@ -6,6 +6,7 @@
         protected $nombre;
         protected $idCategoria;
         protected $precio;
+        protected $imgProducto;
 
 
 
@@ -41,7 +42,17 @@
 
         public function getIdCategoria()
         {
-                return $this->idCategoria;
+                if($this->idCategoria == 1) {
+                        return "Menus";
+                }elseif ($this->idCategoria == 2) {
+                        return "Individuales";
+                }elseif ($this->idCategoria == 3) {
+                        return "Entrantes";
+                }elseif ($this->idCategoria == 4) {
+                        return "Bebidas";
+                }elseif ($this->idCategoria == 5) {
+                        return "Postres";
+                }
         }
 
         public function setIdCategoria($idCategoria)
@@ -59,6 +70,18 @@
         public function setPrecio($precio)
         {
                 $this->precio = $precio;
+
+                return $this;
+        }
+
+        public function getImgProducto()
+        {
+                return $this->imgProducto;
+        }
+
+        public function setImgProducto($imgProducto)
+        {
+                $this->imgProducto = $imgProducto;
 
                 return $this;
         }

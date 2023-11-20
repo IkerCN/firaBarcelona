@@ -41,7 +41,7 @@ class ProductoDAO{
         return $listaProductos;
     }
 
-    public static function getProductById($idProducto){
+    public static function getProductByIdProducto($idProducto){
         $con = db::connect();
 
         $stmt = $con->prepare("SELECT * FROM productos WHERE `idProducto` = ?"); 

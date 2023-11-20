@@ -13,12 +13,11 @@
 
             $controller = new $nombre_controller();
 
-            if(isset($_GET['acction']) && method_exists($controller,$_GET['action'])){
+            if(isset($_GET['action']) && method_exists($controller,$_GET['action'])){
                 $action = $_GET['action'];
             }else{
                 $action = action_default;
             }
-
             $controller->$action();
         
         }else{
