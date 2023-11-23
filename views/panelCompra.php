@@ -18,8 +18,8 @@
             <th> Precio </th>
             <th> Img </th>
             <th> Cantidad </th>
-            <th> Edita Candtidad </th>
             <th> Precio Total</th>
+            <th> Edita Candtidad </th>
             <th> Modificar </th>
             <th> Eliminar </th>
         </tr>

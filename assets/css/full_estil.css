@@ -14,6 +14,11 @@
     --bg-color2: rgb(173, 22, 22);
 }
 
+.boton-carrito {
+    background-image: url("assets\images\carrito-de-compras.png");
+    background-size: cover; 
+  }
+
 /* h1{
     color: var(--bg-color1);
     width: 50%;

@@ -7,15 +7,14 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="assets/css/full_estil.css" rel="stylesheet" type="text/css" media="screen">
 
-     <script src="./assets/js/bootstrap.bundle.min.js"></script>
-  <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+      <script src="./assets/js/bootstrap.bundle.min.js"></script> 
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
 </head>
 <body>
-    <div>
     <div class="menu-principal container">
         <nav class="navbar navbar-expand-lg bg-white">
             <div class="container-fluid">
-              <a class="navbar-brand" href="#">Navbar</a>
+              <a class="navbar-brand" href="http://localhost/firaBarcelona/firaBarcelona/"><img src="assets\images\logo-fira-blue.png" alt="logo de la web fira de barcelona"></a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -25,7 +24,7 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="<?=URL."?controller=producto&action=compra"?>">Carta</a>
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,7 +42,7 @@
                   if(isset($_SESSION["selecciones"])) {
                   ?>
                     <div>
-                      <a herf=<?=URL.'?controller=producto&action=compra'?> class="btn"><?=count($_SESSION['selecciones'])?> selecciones</a>
+                      <a herf="<?=URL."?controller=producto&action=compra"?>" class="btn"><?=count($_SESSION['selecciones'])?> selecciones</a>
                     </div>
                   <?php } ?>
                   </li>
@@ -58,4 +57,5 @@
         </div>
     </div>
 </body>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
 </html>

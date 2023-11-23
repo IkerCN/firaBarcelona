@@ -18,38 +18,139 @@
             <button type="submit">Carrito <?= count($_SESSION["selecciones"])?> </button>
         </form>
     <?php } ?>
-    <table border=1 style= 'text-align: center'>
-        <tr>
-            <th> idProducto </th>
-            <th> Nombre </th>
-            <th> Categoria_id </th>
-            <th> Precio </th>
-            <th> Img </th>
-            <th> Añadir </th>
-        </tr>
-        <?php foreach ($allProducts as $producto){?>
-          <div class="col-md-3 mb-4">
-              <div class="card">
-                  <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Producto 1">
-                  <div class="card-body d-flex flex-column">
-                      <h5 class="card-title"><?=$producto->getNombre()?></h5>
-                      <p class="card-text"><?=$producto->getPrecio(). "€"?></p>
-                      <p class="card-text"><?= $producto->getIdCategoria()?></p>
-                      <a href="<?=URL ."?controller=producto&action=index"?>" class="btn btn-primary">
-                          <div class="btn btn-light light-border-subtle">
-                              <img src="assets\images\carrito-de-compras.png" alt="Carrito" width="30">
-                              <form method="post" style="display: none;">
-                                  <input type="hidden" name="idProducto" value="<?=$producto->getIdProducto()?>">
-                                  <button type="submit">Añadir</button>
-                              </form>
-                          </div>
-                      </a>
-                  </div>
+
+    <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="assets\images\snack-2635035 (1).jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>First slide label</h5>
+              <p>Some representative placeholder content for the first slide.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel-img" style="background-image: linear-gradient(rgba(224,23,34,0.6), rgba(0,6,39,0.2)) ,url('assets\images\pasteles.jpg');"></div>
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Second slide label</h5>
+              <p>Some representative placeholder content for the second slide.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+     </div>
+    <div class="container py-2 my-4">
+      <h3>Novedades</h3>
+      <div class="row">
+        <?php foreach ($newProducts as $producto){?>
+            <div class="col-md-3 mb-4">
+                <div class="border-0 card">
+                    <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Producto 1">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><?= $producto->getNombre() ?></h5>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <div class="d-flex flex-column mb-3">
+                            <div class="p-2"><p class="card-text"><?= $producto->getPrecio() . "€" ?></p></div>
+                            <div class="p-2"><p class="card-text"><?= $producto->getIdCategoria() ?></p></div>
+                        </div>
+
+                            <!-- Botón de carrito -->
+
+                                    <form method="post" action="<?= URL . "?controller=producto&action=index" ?>">
+                                        <input type="hidden" name="idProducto" value="<?= $producto->getIdProducto() ?>">
+                                        <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
+                                    </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        </div>
+   </div>
+  <section class="bg-dark-subtle container-fluid py-4">
+    <div class="container mx-auto py-3">
+      <h3>Explora nuestras categorias</h3>
+      <div class="row">
+          <div class="col-md-2 text-center">
+              <div class="custom-div">
+                  <img src="assets\images\oferta-8.png" alt="Imagen 1" class="custom-img">
+                  <p>Ofertas</p>
+              </div>
+              
+          </div>
+          <div class="col-md-2 text-center">
+              <div class="custom-div">
+                  <img src="assets\images\menu-categoria.png" alt="Imagen 2" class="custom-img">
+                  <p>Menús</p>
               </div>
           </div>
+          <div class="col-md-2 text-center">
+              <div class="custom-div">
+                  <img src="assets\images\appetite-1238459_1280.jpg" alt="Imagen 3" class="custom-img">
+                  <p>Individuales</p>
+              </div>
+          </div>
+          <div class="col-md-2 text-center">
+              <div class="custom-div">
+                  <img src="assets\images\alitas.png" alt="Imagen 4" class="custom-img">
+                  <p>Entrantes</p>
+              </div>
+          </div>
+          <div class="col-md-2 text-center">
+              <div class="custom-div">
+                  <img src="assets\images\64561226-maqueta-para-su-diseño-vasos-desechables-de-café-con-tapa-sobre-fondo-blanco-las-3d.jpg" alt="Imagen 5" class="custom-img">
+                  <p>Bebidas</p>
+              </div>
+          </div>
+          <div class="col-md-2 text-center">
+              <div class="custom-div">
+                  <img src="assets\images\a-cake-742135_1920.png" alt="Imagen 6" class="custom-img">
+                  <p>Postres</p>
+              </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  <div class="container py-2 my-4">
+      <h3>Novedades</h3>
+      <div class="row">
+        <?php foreach ($firstProducts as $producto){?>
+            <div class="col-md-3 mb-4">
+                <div class="border-0 card">
+                    <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Producto 1">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><?= $producto->getNombre() ?></h5>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <div class="d-flex flex-column mb-3">
+                            <div class="p-2"><p class="card-text"><?= $producto->getPrecio() . "€" ?></p></div>
+                            <div class="p-2"><p class="card-text"><?= $producto->getIdCategoria() ?></p></div>
+                        </div>
+
+                            <!-- Botón de carrito -->
+
+                                    <form method="post" action="<?= URL . "?controller=producto&action=index" ?>">
+                                        <input type="hidden" name="idProducto" value="<?= $producto->getIdProducto() ?>">
+                                        <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
+                                    </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         <?php } ?>
-
-     </table>
-
+        </div>
+   </div>
 </body>
 </html>

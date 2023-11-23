@@ -22,6 +22,40 @@ class ProductoDAO{
         return $res;
         
     }
+    public static function getNewProducts (){
+
+        $con = db::connect();
+        $stmt = $con->prepare("SELECT * FROM productos ORDER BY idProducto DESC LIMIT 4;");
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $res =[];
+
+        while($producto = $result->fetch_object('Productos')){
+            $res[] = $producto;
+        }
+
+        return $res;
+        
+    }
+    public static function getFirstProducts (){
+
+        $con = db::connect();
+        $stmt = $con->prepare("SELECT * FROM productos ORDER BY idProducto LIMIT 4;");
+   
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $res =[];
+
+        while($producto = $result->fetch_object('Productos')){
+            $res[] = $producto;
+        }
+
+        return $res;
+        
+    }
     
     public static function getAllByCategoria($idCategoria){
         $con = db::connect();

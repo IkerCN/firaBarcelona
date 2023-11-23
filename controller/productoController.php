@@ -20,9 +20,12 @@
             }
 
             $allProducts = ProductoDAO::getAllProducts();
+            $newProducts = ProductoDAO::getNewProducts();
+            $firstProducts = ProductoDAO::getFirstProducts();
             
             include_once 'views/header.php';
             include_once 'views/panelPedido.php';
+            include_once 'views/footer.php';
         }
 
         public function compra(){
@@ -42,10 +45,9 @@
                     $pedido->setCantidad ($pedido->getCantidad()-1);
                 }
             }
-                
-
             include_once 'views/header.php';
             include_once 'views/panelCompra.php';
+            include_once 'views/footer.php';
         }
         public function eliminar(){
             $idProducto = $_POST['idProducto'];
@@ -60,7 +62,9 @@
          
             $producto = ProductoDAO::getProductByIdProducto($idProducto);
     
+            include_once 'views/header.php';
             include_once "views/editProduct.php";
+            include_once 'views/footer.php';
         }
     
         public function update(){
@@ -74,6 +78,7 @@
     
             include_once 'views/header.php';
             include_once 'views/panelPedido.php';
+            include_once 'views/footer.php';
         }
     }
     
