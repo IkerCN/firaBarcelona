@@ -7,19 +7,27 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="assets/css/full_estil.css" rel="stylesheet" type="text/css" media="screen">
 
-     <script src="./assets/js/bootstrap.bundle.min.js"></script>
   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
 </head>
 <body>
-    <?php
-    if(isset($_SESSION["selecciones"])) {
-    ?>
-        <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
-            <button type="submit">Carrito <?= count($_SESSION["selecciones"])?> </button>
-        </form>
-    <?php } ?>
-
-    <div id="carouselExampleCaptions" class="carousel slide">
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="assets\images\snack-2635035 (1).jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>First slide label</h5>
+        <p>Some representative placeholder content for the first slide.</p>
+      </div>    
+    </div>
+    <div class="carousel-item">
+      <img src="..." class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="..." class="d-block w-100" alt="...">
+    </div>
+  </div>
+</div>
+    <!-- <div id="carouselExampleCaptions" class="carousel slide">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -27,6 +35,7 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
+            <div>  </div>
             <img src="assets\images\snack-2635035 (1).jpg" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
               <h5>First slide label</h5>
@@ -40,7 +49,14 @@
               <p>Some representative placeholder content for the second slide.</p>
             </div>
           </div>
-        </div>
+         <div class="carousel-item active">
+            <img src="assets\images\pasteles.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Tird slide label</h5>
+              <p>Some representative placeholder content for the tird slide.</p>
+            </div>
+          </div> 
+      </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -49,7 +65,7 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
-     </div>
+     </div> -->
     <div class="container py-2 my-4">
       <h3>Novedades</h3>
       <div class="row">
@@ -87,39 +103,19 @@
               <div class="custom-div">
                   <img src="assets\images\oferta-8.png" alt="Imagen 1" class="custom-img">
                   <p>Ofertas</p>
-              </div>
-              
+              </div>   
           </div>
+
+          <?php foreach ($categorias as $categoria){?>
+
           <div class="col-md-2 text-center">
               <div class="custom-div">
-                  <img src="assets\images\menu-categoria.png" alt="Imagen 2" class="custom-img">
-                  <p>Menús</p>
+                  <img src="assets\images\<?= $categoria->getNombreCategoria() ?>.png" alt="Imagen 2" class="custom-img">
+                  <p><?= $categoria->getNombreCategoria() ?></p>
               </div>
           </div>
-          <div class="col-md-2 text-center">
-              <div class="custom-div">
-                  <img src="assets\images\appetite-1238459_1280.jpg" alt="Imagen 3" class="custom-img">
-                  <p>Individuales</p>
-              </div>
-          </div>
-          <div class="col-md-2 text-center">
-              <div class="custom-div">
-                  <img src="assets\images\alitas.png" alt="Imagen 4" class="custom-img">
-                  <p>Entrantes</p>
-              </div>
-          </div>
-          <div class="col-md-2 text-center">
-              <div class="custom-div">
-                  <img src="assets\images\64561226-maqueta-para-su-diseño-vasos-desechables-de-café-con-tapa-sobre-fondo-blanco-las-3d.jpg" alt="Imagen 5" class="custom-img">
-                  <p>Bebidas</p>
-              </div>
-          </div>
-          <div class="col-md-2 text-center">
-              <div class="custom-div">
-                  <img src="assets\images\a-cake-742135_1920.png" alt="Imagen 6" class="custom-img">
-                  <p>Postres</p>
-              </div>
-          </div>
+
+          <?php } ?>
       </div>
     </div>
   </section>

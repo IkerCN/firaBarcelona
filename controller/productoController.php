@@ -22,11 +22,33 @@
             $allProducts = ProductoDAO::getAllProducts();
             $newProducts = ProductoDAO::getNewProducts();
             $firstProducts = ProductoDAO::getFirstProducts();
+            $categorias = ProductoDAO::getAllCategorias();
             
             include_once 'views/header.php';
             include_once 'views/panelPedido.php';
             include_once 'views/footer.php';
         }
+
+        public function carta(){
+
+            //iniciamos sesion
+           session_start();
+           if(!isset($_SESSION['selecciones'])){
+              $_SESSION['selecciones']= array();
+           }else{
+               if(isset($_POST['idProducto'])){
+                   $pedido = new Pedido(ProductoDAO::getProductByIdProducto($_POST['idProducto']));
+                   array_push($_SESSION['selecciones'], $pedido);
+               }
+           }
+
+           $allProducts = ProductoDAO::getAllProducts();
+           $categorias = ProductoDAO::getAllCategorias();
+           
+           include_once 'views/header.php';
+           include_once 'views/carta.php';
+           include_once 'views/footer.php';
+       }
 
         public function compra(){
             session_start();

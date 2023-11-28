@@ -91,6 +91,7 @@ class ProductoDAO{
 
         return $producto;
     }
+
     public static function deleteProduct($idProducto){
         $con = db::connect();
 
@@ -114,6 +115,24 @@ class ProductoDAO{
 
         $con->close();
 
+    }
+
+    public static function getAllCategorias (){
+
+        $con = db::connect();
+        $stmt = $con->prepare("SELECT * FROM categorias");
+   
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $res =[];
+
+        while($categoria = $result->fetch_object('categorias')){
+            $res[] = $categoria;
+        }
+
+        return $res;
+        
     }
     
 }

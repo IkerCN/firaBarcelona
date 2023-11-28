@@ -6,11 +6,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="assets/css/full_estil.css" rel="stylesheet" type="text/css" media="screen">
-
-      <script src="./assets/js/bootstrap.bundle.min.js"></script> 
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
 </head>
 <body>
+  
     <div class="menu-principal container">
         <nav class="navbar navbar-expand-lg bg-white">
             <div class="container-fluid">
@@ -21,36 +20,25 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="http://localhost/firaBarcelona/firaBarcelona/">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="<?=URL."?controller=producto&action=compra"?>">Carta</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                  <?php
-                  if(isset($_SESSION["selecciones"])) {
-                  ?>
-                    <div>
-                      <a herf="<?=URL."?controller=producto&action=compra"?>" class="btn"><?=count($_SESSION['selecciones'])?> selecciones</a>
-                    </div>
-                  <?php } ?>
+                    <a class="nav-link" href="<?=URL."?controller=producto&action=carta"?>">Carta</a>
                   </li>
                 </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
+                <div class="d-flex align-items-center">
+                <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\lupa.png" alt="lupa de busqueda" class="carrito-icon"></button>
                 </form>
+                <?php
+                    if(isset($_SESSION["selecciones"])) {?>
+                      <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
+                        <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\carrito-de-compras.png" alt="Carrito" class="carrito-icon">
+                          <span class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-danger"><?= count($_SESSION["selecciones"])?></span>
+                        </button>
+                      </form>
+                <?php } ?>
+                </div>
               </div>
             </div>
           </nav>
