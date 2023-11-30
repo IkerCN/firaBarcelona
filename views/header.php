@@ -27,7 +27,7 @@
                   </li>
                 </ul>
                 <div class="d-flex align-items-center">
-                <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
+                <form action="#" method= "post">
                     <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\lupa.png" alt="lupa de busqueda" class="carrito-icon"></button>
                 </form>
                 <?php
