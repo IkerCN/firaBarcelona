@@ -35,7 +35,7 @@
         <?php foreach ($newProducts as $producto){?>
             <div class="col-md-3 mb-4">
                 <div class="border-0 card">
-                    <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Producto 1">
+                    <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>>
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><?= $producto->getNombre() ?></h5>
                         <div class="d-flex justify-content-between align-items-center mt-auto">

@@ -87,6 +87,12 @@
     background-color: transparent;
 }
 
+
+.resumenPedido{
+    background-color: #F2F2F2;
+    text-align: center;s
+}
+
 /*Media query*/
 @media only screen and (max-width: 600px) {
     /* body {

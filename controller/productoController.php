@@ -23,7 +23,12 @@
             $newProducts = ProductoDAO::getNewProducts();
             $firstProducts = ProductoDAO::getFirstProducts();
             $categorias = ProductoDAO::getAllCategorias();
-            
+
+            if(isset($_COOKIE['UltimoPedido'])){
+                echo 'Tu ultimo pedido fue de '.$_COOKIE['UltimoPedido'].'€';
+                setcookie('UltimoPedido','',time()-3600);
+            }            
+
             include_once 'views/header.php';
             include_once 'views/panelPedido.php';
             include_once 'views/footer.php';
@@ -67,6 +72,9 @@
                     $pedido->setCantidad ($pedido->getCantidad()-1);
                 }
             }
+
+            $precioTotal = CalculadoraPrecios::CalculadoraPrecioPedido($_SESSION['selecciones']);
+
             include_once 'views/header.php';
             include_once 'views/panelCompra.php';
             include_once 'views/footer.php';
@@ -101,6 +109,18 @@
             include_once 'views/header.php';
             include_once 'views/panelPedido.php';
             include_once 'views/footer.php';
+        }
+
+        public function confirmar(){
+            //Te almacena el pedido en la BD
+
+            //Borrmos sesion de pedido
+            session_start();
+            unset($_SESSION['selecciones']);
+
+            //Guardo la cookie
+            setcookie('UltimoPedido',$_POST['cantidadFinal'],time()+3600);
+            header("Location:". URL ."?controller=producto");
         }
     }
     
