@@ -30,13 +30,27 @@
                 <form action="#" method= "post">
                     <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\lupa.png" alt="lupa de busqueda" class="carrito-icon"></button>
                 </form>
-                <?php
-                    if(isset($_SESSION["selecciones"])) {?>
-                      <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
-                        <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\carrito-de-compras.png" alt="Carrito" class="carrito-icon">
-                          <span class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-danger"><?= count($_SESSION["selecciones"])?></span>
-                        </button>
-                      </form>
+                <?php if(isset($_SESSION["id_usuari"])) { ?>
+                <form action="<?=URL."?controller=usuario&action=modificarUsuario"?>" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\usuarioSesion.png" alt="Boton para iniciar sesion" class="carrito-icon"></button>
+                </form>
+                <?php }else{ ?>
+                  <form action="<?=URL."?controller=usuario&action=login"?>" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\usuario.png" alt="Boton para iniciar sesion" class="carrito-icon"></button>
+                </form>
+                <?php } ?>
+                <?php if(isset($_SESSION["selecciones"])) { ?>
+                  <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\carrito-de-compras.png" alt="Carrito" class="carrito-icon">
+                      <span class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-danger"><?= count($_SESSION["selecciones"])?></span>
+                    </button>
+                  </form>
+                <?php }else{ ?>
+                  <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\carrito-de-compras.png" alt="Carrito" class="carrito-icon">
+                      <span class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-danger">0</span>
+                    </button>
+                  </form>
                 <?php } ?>
                 </div>
               </div>

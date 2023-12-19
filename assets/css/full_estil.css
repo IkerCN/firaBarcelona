@@ -10,7 +10,7 @@
 /*Variables CSS*/
 :root {
     /* --main-bg-color: brown; */
-    --bg-color1: rgb(32, 22, 173);
+    --bg-color1: #00468C;
     --bg-color2: rgb(173, 22, 22);
 }
 
@@ -37,6 +37,7 @@
 }
 
 .banner {
+
     background-size: cover;
     background-position: center;
     color: #fff; /* Color del texto */
@@ -77,6 +78,7 @@
     cursor: pointer;
 }
 
+
 .carrito-icon {
     width: 20px;
     height: 20px;
@@ -90,7 +92,7 @@
 
 .resumenPedido{
     background-color: #F2F2F2;
-    text-align: center;s
+    text-align: center;
 }
 
 /*Media query*/

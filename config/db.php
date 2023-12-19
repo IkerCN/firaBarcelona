@@ -9,18 +9,5 @@ class db{
              return $con;
          }
     }
-//    public static function getAllByCategoria($categoria){
-//        $con = db::connect();
-//
-//        $stmt = $con->prepare("SELECT * FROM product WHERE categoria=?");
-//        $stmt->bind_param("i", $categoria);
-//
-//        $con->close();
-//
-//        $listaProductos = [];
-//        while($productoDB = $result->fetch_object($categoria)){
-//            $listaProductos[] = $productoDB;
-//        }
-//        return $listaProductos;
-//    }
+
 }

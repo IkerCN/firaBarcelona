@@ -16,7 +16,36 @@
     <div class="container py-2 my-4">
       <h3><?=$categoria->getNombreCategoria()?></h3>
       <div class="row">
-        <?php foreach ($allProducts as $producto){
+        <?php if($categoria->getNombreCategoria() == "Bebidas"){  ?>
+
+            <?php foreach ($bebidas as $bebida){
+            if($bebida->getIdCategoria() == $categoria->getNombreCategoria()) {
+            ?>
+            <div class="col-md-3 mb-4">
+                <div class="border-0 card">
+                    <img src="assets\images\<?= $bebida->getImgProducto() ?>" class="object-fit-scale" alt="Producto 1">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><?= $bebida->getNombre() ?></h5>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <div class="d-flex flex-column mb-3">
+                            <div class="p-2"><p class="card-text"><?= $bebida->getPrecio() . "€" ?></p></div>
+                            <div class="p-2"><p class="card-text"><?= $bebida->getIdCategoria()."y".$bebida->getConAlcohol() ?></p></div>
+                        </div>
+                            <!-- Botón de carrito -->
+
+                                    <form method="post" action="<?= URL . "?controller=producto&action=carta" ?>">
+                                        <input type="hidden" name="idProducto" value="<?= $bebida->getIdProducto() ?>">
+                                        <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
+                                    </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php }
+             } ?>
+
+        <?php   }else{ ?>
+            <?php foreach ($allProducts as $producto){
             if($producto->getIdCategoria() == $categoria->getNombreCategoria()) {
             ?>
             <div class="col-md-3 mb-4">
@@ -43,10 +72,13 @@
             </div>
         <?php }
         } ?>
+        <?php } ?>
+    
         </div>
    </div>
 
     <?php } ?>
 
-     </body>
+    </body>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
 </html>

@@ -2,6 +2,7 @@
     include_once 'config/db.php';
     include_once 'Productos.php';
     include_once 'categorias.php';
+    include_once 'bebida.php';
 
 class ProductoDAO{    
     
@@ -109,7 +110,18 @@ class ProductoDAO{
         $con = db::connect();
 
         $stmt = $con->prepare("UPDATE `productos` SET `nombre` = ?, `precio` = ? WHERE `idProducto` = ?");
-        $stmt->bind_param("sii", $nombre, $precio, $idProducto);
+        $stmt->bind_param("sdi", $nombre, $precio, $idProducto);
+
+        $stmt->execute();
+
+        $con->close();
+
+    }
+
+    public static function createProduct($nombre, $precio, $idCategoria){
+        $con = db::connect();
+        $stmt = $con->prepare("INSERT into `productos` (`nombre`, `precio`, `idCategoria`) values (?, ?, ?) ");
+        $stmt->bind_param("sdi", $nombre, $precio, $idCategoria);
 
         $stmt->execute();
 
@@ -129,6 +141,23 @@ class ProductoDAO{
 
         while($categoria = $result->fetch_object('categorias')){
             $res[] = $categoria;
+        }
+
+        return $res;
+        
+    }
+    public static function getAllBebidas(){
+
+        $con = db::connect();
+        $stmt = $con->prepare("SELECT * FROM productos where idCategoria = 4");
+   
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $res =[];
+
+        while($bebida = $result->fetch_object('bebida')){
+            $res[] = $bebida;
         }
 
         return $res;

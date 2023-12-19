@@ -35,7 +35,12 @@
         <?php foreach ($newProducts as $producto){?>
             <div class="col-md-3 mb-4">
                 <div class="border-0 card">
-                    <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>>
+                <?php if ($producto instanceof Bebida && $producto->getConAlcohol()) { ?>
+                  <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>><span class="badge">Con Alcohol</span>
+                <?php} else { ?>
+                  <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>>
+                <?php } ?>
+                <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>>
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><?= $producto->getNombre() ?></h5>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
@@ -86,7 +91,7 @@
         <?php foreach ($firstProducts as $producto){?>
             <div class="col-md-3 mb-4">
                 <div class="border-0 card">
-                    <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Producto 1">
+                <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>>
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><?= $producto->getNombre() ?></h5>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
@@ -106,5 +111,6 @@
         <?php } ?>
         </div>
    </div>
-</body>
+   </body>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
 </html>

@@ -1,36 +1,45 @@
-<form action="<?=URL.'?controller=producto&action=update'?>" method="post">
+<html>
+<head>
+    <title>Fira Barcelona</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="assets/css/full_estil.css" rel="stylesheet" type="text/css" media="screen">
+
+  <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+</head>
+<body>
+<div class="container mt-4">
+    <form action="<?=URL.'?controller=producto&action=update'?>" method="post">
     <table border=1 style= 'text-align: center'>
         <tr>
-            <th> Producto_id </th>
             <th> Nombre </th>
             <th> Categoria_id </th>
             <th> Precio </th>
             <th> Guardar </th>
         </tr>
             <tr>
-                <td>
-                    <input disabled name='idProducto' value="<?=$producto->getIdProducto()?>">
-                </td>
+
+                <input hidden name='idProducto' value="<?=$producto->getIdProducto()?>">
                 <td>
                     <input name='nombre' value="<?=$producto->getNombre()?>">
                 </td>
                 <td>
-                    <input disabled name='idCategoria' value="<?=$producto->getIdCategoria()?>">
+                    <input name='idCategoria' value="<?=$producto->getIdCategoria()?>">
                 </td>
                 <td>
                     <input name='precio' value="<?=$producto->getPrecio()?>">
                 </td>
                 <td>
-                    <form action="<?=URL."?controller=producto&action=update"?>" method="post">
-                        <input hidden name="idProducto" value="<?=$producto->getIdProducto()?>">
-                        <input hidden name="nombre" value="<?=$producto->getNombre()?>">
-                        <input hidden name="idCategoria" value="<?=$producto->getIdCategoria()?>">
-                        <input hidden name="precio" value="<?=$producto->getPrecio()?>">
                         <button type="submit">Guardar</button>
-                    </form>
                 </td>   
+                
             </tr> 
                    
      </table>
      
 </form> 
+   
+</body>
+</html>

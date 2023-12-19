@@ -16,16 +16,16 @@
     <div class="col-lg-8">
     <h3>Carrito</h3>
         <div class="table-responsive">
-            <table class="table" style="text-align: center">
+            <table class="aling-items-center " >
             <?php
             $pos = 0;
             foreach ($_SESSION['selecciones'] as $pedido){?>
                 <tr>
-                    <td> <div><img src="assets\images\<?= $pedido->getProducto()->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $pedido->getProducto()->getNombre() ?>></div> </td>
-                    <td> <?= $pedido->getProducto()->getNombre() ?> <br><?= $pedido->getProducto()->getIdCategoria() ?> </td>
-                    <td> <?= $pedido->getProducto()->getPrecio(). "€"?></td>
+                    <td class="col-2"> <img src="assets\images\<?= $pedido->getProducto()->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $pedido->getProducto()->getNombre() ?>> </td>
+                    <td class="col-3"> <?= $pedido->getProducto()->getNombre() ?> <br><?= $pedido->getProducto()->getIdCategoria() ?> </td>
+                    <td class="col-1"> <?= $pedido->getProducto()->getPrecio(). "€"?></td>
 
-                    <td>
+                    <td class="col-2 text-center">
                         <form action="<?=URL ."?controller=producto&action=compra"?>" method="post" class="form-inline">
                             <button type="submit" class="btn btn-sm btn-light" name="del" value="<?=$pos?>"> - </button>
                             <div class="mx-2"> <?= $pedido->getCantidad()?> </div> 
@@ -33,8 +33,13 @@
                         </form>
                     </td>
                     <!-- Calculamos precio totoal -->
-                    <td> <?= $pedido->precioTotal()?></td>
-
+                    <td class="col-1"> <?= $pedido->precioTotal(). "€"?></td>
+                    <td class="col-2  align-self-center">
+                    <form action="<?=URL ."?controller=producto&action=compra"?>" method="post">
+                            <input hidden name="borrar" value="<?=$pedido->getProducto()->getIdProducto()?>">
+                            <button type="submit" class="btn text-decoration-underline" name="borrar" value="<?=$pos?>">Borrar</button>
+                    </form>
+                    </td>
                     <!-- BOTON DE MODIFICAR Y ELIMINAR PRODUCTO EN BASE DE DATOS
                     <td>
                         <form action="<?=URL ."?controller=producto&action=updateTable"?>" method="post">
