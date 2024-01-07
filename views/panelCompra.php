@@ -18,6 +18,11 @@
         <div class="table-responsive">
             <table class="aling-items-center " >
             <?php
+    
+    if (empty($_SESSION['selecciones'])) {
+        // El carrito está vacío
+        echo '<tr><td colspan="6">No hay productos en el carrito</td></tr>';
+    } else {
             $pos = 0;
             foreach ($_SESSION['selecciones'] as $pedido){?>
                 <tr>
@@ -40,25 +45,10 @@
                             <button type="submit" class="btn text-decoration-underline" name="borrar" value="<?=$pos?>">Borrar</button>
                     </form>
                     </td>
-                    <!-- BOTON DE MODIFICAR Y ELIMINAR PRODUCTO EN BASE DE DATOS
-                    <td>
-                        <form action="<?=URL ."?controller=producto&action=updateTable"?>" method="post">
-                            <input hidden name="idProducto" value="<?=$pedido->getProducto()->getIdProducto()?>">
-                            <input hidden name="nombre" value="<?=$pedido->getProducto()->getNombre()?>">
-                            <input hidden name="idCategoria" value="<?=$pedido->getProducto()->getIdCategoria()?>">
-                            <input hidden name="precio" value="<?=$pedido->getProducto()->getPrecio()?>">
-                            <button type="submit">Modificar</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="<?=URL ."?controller=producto&action=eliminar"?>" method="post">
-                            <input hidden name="idProducto" value="<?=$pedido->getProducto()->getIdProducto()?>">
-                            <button type="submit">Eliminar</button>
-                        </form>
-                    </td> -->
                 </tr>        
             <?php 
             $pos++;
+		}
             } ?>
 
         </table>
@@ -70,12 +60,12 @@
     <div class="col-lg-4">
         <h3>Resumen del Pedido</h3>
         <div class="resumenPedido p-2">
-          <p>Subtotal: $10.00</p>
-          <p>IVA (16%): $1.60</p>
-          <p>Total: <?=$precioTotal?></p>
+          <p>Subtotal: <?=number_format($precioSinIva, 2)?> €</p>
+          <p>IVA (16%): <?=number_format($precioIva, 2)?> €</p>
+          <p>Total: <?=$precioTotal?> €</p>
           <form action="<?=URL ."?controller=producto&action=confirmar"?>" method="post">
                         <input hidden name="cantidadFinal" value="<?=$precioTotal?>">
-                        <button type="submit" class="btn btn-success"> CONFIRMAR PEDIDO </button>
+                        <button type="submit" class="btn btn-primary"> CONFIRMAR PEDIDO </button>
           </form>
         </div>
     </div>

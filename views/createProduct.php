@@ -25,11 +25,11 @@
             </td>
             <td>
                 <select name="idCategoria">
-                    <option value="1">Categoría 1</option>
-                    <option value="2">Categoría 2</option>
-                    <option value="3">Categoría 3</option>
-                    <option value="4">Categoría 4</option>
-                    <option value="5">Categoría 5</option>
+                    <option value="1">Menus</option>
+                    <option value="2">Individuales</option>
+                    <option value="3">Entrantes</option>
+                    <option value="4">Bebidas</option>
+                    <option value="5">Postres</option>
                 </select>
             </td>
             <td>

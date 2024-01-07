@@ -26,7 +26,14 @@
                     <input name='nombre' value="<?=$producto->getNombre()?>">
                 </td>
                 <td>
-                    <input name='idCategoria' value="<?=$producto->getIdCategoria()?>">
+		<select name="idCategoria">
+		    <option value="1" <?php if ($producto->getIdCategoria() == "Menus") echo 'selected'; ?>>Menus</option>
+		    <option value="2" <?php if ($producto->getIdCategoria() == "Individuales") echo 'selected'; ?>>Individuales</option>
+		    <option value="3" <?php if ($producto->getIdCategoria() == "Entrantes") echo 'selected'; ?>>Entrantes</option>
+		    <option value="4" <?php if ($producto->getIdCategoria() == "Bebidas") echo 'selected'; ?>>Bebidas</option>
+		    <option value="5" <?php if ($producto->getIdCategoria() == "Postres") echo 'selected'; ?>>Postres</option>
+		</select>
+
                 </td>
                 <td>
                     <input name='precio' value="<?=$producto->getPrecio()?>">

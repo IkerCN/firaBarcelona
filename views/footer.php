@@ -11,12 +11,28 @@
   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
 </head>
 <body>
-<footer style="background-color: #0082C3;">
+<footer style="background-color: #e8e8e8;">
     <div class="container-fluid mt-3">
         <div class="container">
             <div class="row">
-                <div class=" mt-4 col-12 d-flex justify-content-center" style="color: white, ">Xarxes Socials</div>
-                <div class=" mt-4 mb-4 col-12 d-flex justify-content-center" style="color: white; ">Copyright 2023 | Iker Candalija</div>
+                <div class=" mt-4 col-12 d-flex justify-content-center" style="color: #8c8b8b;">
+		<form action="#" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\facebook (1).png" alt="logo de Facebook" class="carrito-icon"></button>
+                </form>
+		<form action="#" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\gorjeo (1).png" alt="logo de Twitter" class="carrito-icon"></button>
+                </form>
+		<form action="#" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\linkedin (1).png" alt="logo de LinkedIn" class="carrito-icon"></button>
+                </form>
+		<form action="#" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\youtube.png" alt="logo de Youtube" class="carrito-icon"></button>
+                </form>
+		<form action="#" method= "post">
+                    <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\instagram (1).png" alt="logo de Instagram" class="carrito-icon"></button>
+                </form>
+		</div>
+                <div class=" mt-4 mb-4 col-12 d-flex justify-content-center" style="color: #8c8b8b;">Copyright 2023 | Iker Candalija</div>
             </div>
         </div>
     </div>

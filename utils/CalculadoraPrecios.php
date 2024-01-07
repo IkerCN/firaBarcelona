@@ -10,4 +10,14 @@
             return $precioTotal;
         }
 
+        public static function CalculadoraPrecioSinIva($precioTotal){
+            $porcentajeIva = 16;
+	    $precioSinIva = $precioTotal / (1 + ($porcentajeIva / 100));
+            return $precioSinIva;
+        }
+
+        public static function CalculadoraPrecioIva($precioTotal, $precioSinIva){
+	    $precioIva = $precioTotal - $precioSinIva;
+            return $precioIva;
+        }
     }

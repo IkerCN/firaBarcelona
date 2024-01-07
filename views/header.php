@@ -42,13 +42,13 @@
                 <?php if(isset($_SESSION["selecciones"])) { ?>
                   <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
                     <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\carrito-de-compras.png" alt="Carrito" class="carrito-icon">
-                      <span class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-danger"><?= count($_SESSION["selecciones"])?></span>
+                      <span class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-primary"><?= count($_SESSION["selecciones"])?></span>
                     </button>
                   </form>
                 <?php }else{ ?>
                   <form action="<?=URL."?controller=producto&action=compra"?>" method= "post">
                     <button type="submit" class="carrito-btn transparent-bg"><img src="assets\images\carrito-de-compras.png" alt="Carrito" class="carrito-icon">
-                      <span class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-danger">0</span>
+                      <span class="position-absolute top-10 start-10 translate-middle badge rounded-pill bg-primary">0</span>
                     </button>
                   </form>
                 <?php } ?>

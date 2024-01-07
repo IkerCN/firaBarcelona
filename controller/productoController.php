@@ -42,7 +42,7 @@
             $categorias = ProductoDAO::getAllCategorias();
 
             if(isset($_COOKIE['UltimoPedido'])){
-                echo 'Tu ultimo pedido fue de '.$_COOKIE['UltimoPedido'].'€';
+                echo '<div class="ultimo-pedido"> Tu ultimo pedido fue de '.$_COOKIE['UltimoPedido'].'€ </div>';
                 setcookie('UltimoPedido','',time()-3600);
             }            
 
@@ -118,6 +118,8 @@
             }
 
             $precioTotal = CalculadoraPrecios::CalculadoraPrecioPedido($_SESSION['selecciones']);
+	    $precioSinIva = CalculadoraPrecios::CalculadoraPrecioSinIva($precioTotal);
+	    $precioIva = CalculadoraPrecios::CalculadoraPrecioIva($precioTotal, $precioSinIva);
 
             include_once 'views/header.php';
             include_once 'views/panelCompra.php';

@@ -54,7 +54,7 @@
         <h3 class="text-center mb-3 fs-1">Acciones Usuario</h3>
         <div class="resumenPedido p-2">
         <form action="<?=URL ."?controller=usuario&action=cerrarSesion"?>" method="post" class="mt-2">
-            <button type="submit" class="btn btn-success mt-2"> CERRAR SESION </button>
+            <button type="submit" class="btn btn-primary mt-2"> CERRAR SESION </button>
           </form>
         </div>
       </div>
@@ -62,10 +62,10 @@
         <h3 class="text-center mb-3 fs-1">Acciones Admin</h3>
         <div class="resumenPedido p-2">
         <form action="<?=URL ."?controller=producto&action=crearProducto"?>" method="post" class="mt-2">
-            <button type="submit" class="btn btn-success mt-2"> CREAR PRODUCTO </button>
+            <button type="submit" class="btn btn-primary mt-2"> CREAR PRODUCTO </button>
           </form>
           <form action="<?=URL ."?controller=producto&action=editarProducto"?>" method="post" class="mt-2">
-            <button type="submit" class="btn btn-success mt-2"> MODIFICAR PRODUCTOS </button>
+            <button type="submit" class="btn btn-primary mt-2"> MODIFICAR PRODUCTOS </button>
           </form>
         </div>
       </div>

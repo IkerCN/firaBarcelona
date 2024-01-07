@@ -29,7 +29,11 @@
                         <div class="d-flex justify-content-between align-items-center mt-auto">
                         <div class="d-flex flex-column mb-3">
                             <div class="p-2"><p class="card-text"><?= $bebida->getPrecio() . "€" ?></p></div>
-                            <div class="p-2"><p class="card-text"><?= $bebida->getIdCategoria()."y".$bebida->getConAlcohol() ?></p></div>
+			    <?php if($bebida->getConAlcohol() == 1){  ?>
+                                <div class="p-2"><p class="card-text"><?= $bebida->getIdCategoria()."  ¡Con Alcohol!"?></p></div>
+			    <?php   }else{ ?>
+				<div class="p-2"><p class="card-text"><?= $bebida->getIdCategoria()?></p></div>
+			    <?php } ?>
                         </div>
                             <!-- Botón de carrito -->
 

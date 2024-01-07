@@ -89,6 +89,11 @@
     background-color: transparent;
 }
 
+.ultimo-pedido{
+    background-color: #00468C;
+    text-align: center;
+    color: white;
+}
 
 .resumenPedido{
     background-color: #F2F2F2;
