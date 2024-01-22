@@ -53,7 +53,13 @@
       <div class="mb-5" >
         <h3 class="text-center mb-3 fs-1">Acciones Usuario</h3>
         <div class="resumenPedido p-2">
-        <form action="<?=URL ."?controller=usuario&action=cerrarSesion"?>" method="post" class="mt-2">
+        <form action="<?=URL ."?controller=usuario&action=mostrarPedidos"?>" method="post" class="mt-2">
+            <button type="submit" class="btn btn-primary mt-2"> MIS PEDIDOS </button>
+          </form>
+        <form action="<?=URL ."?controller=usuario&action=resenas"?>" method="post" class="mt-2">
+            <button type="submit" class="btn btn-primary mt-2"> RESEÑAS </button>
+          </form>
+          <form action="<?=URL ."?controller=usuario&action=cerrarSesion"?>" method="post" class="mt-2">
             <button type="submit" class="btn btn-primary mt-2"> CERRAR SESION </button>
           </form>
         </div>

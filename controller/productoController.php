@@ -178,15 +178,28 @@
             include_once 'views/footer.php';
         }
 
+        public function crearPedido(){
+    
+            $allProducts = ProductoDAO::getAllProducts();
+
+            include_once 'views/header.php';
+            include_once 'views/panelProductos.php';
+            include_once 'views/footer.php';
+        }
+
         public function confirmar(){
             //Te almacena el pedido en la BD
-
-            //Borrmos sesion de pedido
+            $idUsr = $_POST['idUsr'];
+            $precioFinal = $_POST['cantidadFinal'];
             session_start();
+
+            $producto = ProductoDAO::createPedido($idUsr, $precioFinal);
+            
+            //Borrmos sesion de pedido
             unset($_SESSION['selecciones']);
 
             //Guardo la cookie
-            setcookie('UltimoPedido',$_POST['cantidadFinal'],time()+3600);
+            setcookie('UltimoPedido',$precioFinal,time()+3600);
             header("Location:". URL ."?controller=producto");
         }
     }

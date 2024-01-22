@@ -109,4 +109,11 @@
             header("Location:".URL."?controller=producto");
 
         }
+
+        public function resenas(){
+            session_start();
+            include_once 'views/header.php';
+            include_once 'views/resenas.html';
+            include_once 'views/footer.php';
+        }
     }

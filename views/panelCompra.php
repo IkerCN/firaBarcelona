@@ -63,10 +63,21 @@
           <p>Subtotal: <?=number_format($precioSinIva, 2)?> €</p>
           <p>IVA (16%): <?=number_format($precioIva, 2)?> €</p>
           <p>Total: <?=$precioTotal?> €</p>
+          <?php
+    
+    if (empty($_SESSION['selecciones'])) { ?>
+        <form action="#" method="post">
+            <button type="submit" class="btn btn-primary" disabled> CONFIRMAR PEDIDO </button>
+          </form>
+        
+        <?php } else {?>
           <form action="<?=URL ."?controller=producto&action=confirmar"?>" method="post">
                         <input hidden name="cantidadFinal" value="<?=$precioTotal?>">
+                        <input hidden name="idUsr" value="<?=$_SESSION['id_usuari']?>">
                         <button type="submit" class="btn btn-primary"> CONFIRMAR PEDIDO </button>
           </form>
+          <?php 
+		}?>
         </div>
     </div>
   </div>

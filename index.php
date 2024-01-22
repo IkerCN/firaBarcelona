@@ -1,5 +1,6 @@
 <?php
     include_once 'controller/productoController.php';
+    include_once 'controller/apiController.php';
     include_once 'controller/usuarioController.php';
     include_once 'config/parameters.php';
 
@@ -14,19 +15,20 @@
 
             $controller = new $nombre_controller();
 
-            if(isset($_GET['action']) && method_exists($controller,$_GET['action'])){
+            if (isset($_GET['action']) && method_exists($controller, $_GET['action'])) {
                 $action = $_GET['action'];
-            }else{
+            } else {
                 $action = action_default;
             }
-            $controller->$action();
-        
-        }else{
-            header("Location:". URL ."?controller=producto");
-        }
-
-    }
-
     
-
+            $controller->$action();
+        } elseif ($_GET['controller'] == 'api') {
+            // Si el controlador es 'api', redirige al apiController
+            include_once 'controller/apiController.php';
+            api();
+        } else {
+            header("Location:" . URL . "?controller=producto");
+        }
+    }
+    ?>
 ?>

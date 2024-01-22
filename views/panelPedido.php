@@ -35,11 +35,6 @@
         <?php foreach ($newProducts as $producto){?>
             <div class="col-md-3 mb-4">
                 <div class="border-0 card">
-                <?php if ($producto instanceof Bebida && $producto->getConAlcohol()) { ?>
-                  <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>><span class="badge">Con Alcohol</span>
-                <?php} else { ?>
-                  <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>>
-                <?php } ?>
                 <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Imagen del producto: ."<?= $producto->getNombre() ?>>
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><?= $producto->getNombre() ?></h5>
@@ -96,14 +91,14 @@
                         <h5 class="card-title"><?= $producto->getNombre() ?></h5>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
                         <div class="d-flex flex-column mb-3">
-                            <div class="p-2"><p class="card-text"><?= $producto->getPrecio() . "€" ?></p></div>
-                            <div class="p-2"><p class="card-text"><?= $producto->getIdCategoria() ?></p></div>
+                            <div><p class="card-text"><?= $producto->getPrecio() . "€" ?></p></div>
+                            <div><p class="card-text"><?= $producto->getIdCategoria() ?></p></div>
                         </div>
-                            <!-- Botón de carrito -->
-                                    <form method="post" action="<?= URL . "?controller=producto&action=index" ?>">
-                                        <input type="hidden" name="idProducto" value="<?= $producto->getIdProducto() ?>">
-                                        <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
-                                    </form>
+                        <!-- Botón de carrito -->
+                        <form method="post" action="<?= URL . "?controller=producto&action=index" ?>" class="px-2">
+                            <input type="hidden" name="idProducto" value="<?= $producto->getIdProducto() ?>">
+                            <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
+                        </form>
                         </div>
                     </div>
                 </div>

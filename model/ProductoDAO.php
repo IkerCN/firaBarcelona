@@ -163,5 +163,28 @@ class ProductoDAO{
         return $res;
         
     }
+
+    public static function createPedido($idUsr, $precioFinal){
+        $con = db::connect();
+        $stmt = $con->prepare("INSERT into `pedidos` (`idUsr`, `precioTotal`) values (?, ?) ");
+        $stmt->bind_param("id", $idUsr, $precioFinal);
+        $stmt->execute();
+
+        $pedido = $con->query("SELECT idPedido FROM pedidos ORDER BY fecha DESC LIMIT 1");
+        $fila = $pedido->fetch_assoc();
+        $idPedido = intval($fila['idPedido']);
+        foreach($_SESSION['selecciones'] as $producto){
+            $productoId = $producto->getProducto()->getIdProducto();
+            $precioProd = $producto->precioTotal();
+            $unidadesProd = $producto->getCantidad();
+
+            $stmt = $con->prepare("INSERT into `pedidos_articulos` (`idPedido`, `idProducto`, `cantidad`, `precioUnidad`) values (?, ?, ?, ?) ");
+            $stmt->bind_param("iiid", $idPedido, $productoId, $unidadesProd, $precioProd);
+            $stmt->execute();
+        }
+
+        $con->close();
+
+    }
     
 }

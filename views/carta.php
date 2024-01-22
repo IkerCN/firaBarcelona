@@ -28,19 +28,20 @@
                         <h5 class="card-title"><?= $bebida->getNombre() ?></h5>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
                         <div class="d-flex flex-column mb-3">
-                            <div class="p-2"><p class="card-text"><?= $bebida->getPrecio() . "€" ?></p></div>
-			    <?php if($bebida->getConAlcohol() == 1){  ?>
-                                <div class="p-2"><p class="card-text"><?= $bebida->getIdCategoria()."  ¡Con Alcohol!"?></p></div>
-			    <?php   }else{ ?>
-				<div class="p-2"><p class="card-text"><?= $bebida->getIdCategoria()?></p></div>
-			    <?php } ?>
-                        </div>
-                            <!-- Botón de carrito -->
+                        <div><p class="card-text"><?= $producto->getPrecio() . "€" ?></p></div>
+                                <?php if($bebida->getConAlcohol() == 1){  ?>
+                                    <div><p class="card-text"><?= $bebida->getIdCategoria()."  ¡Con Alcohol!"?></p></div>
 
-                                    <form method="post" action="<?= URL . "?controller=producto&action=carta" ?>">
-                                        <input type="hidden" name="idProducto" value="<?= $bebida->getIdProducto() ?>">
-                                        <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
-                                    </form>
+                                <?php   }else{ ?>
+                                    <div><p class="card-text"><?= $producto->getIdCategoria() ?></p></div>
+                                <?php } ?>
+
+                        </div>
+                        <!-- Botón de carrito -->
+                        <form method="post" action="<?= URL . "?controller=producto&action=index" ?>" class="px-2">
+                            <input type="hidden" name="idProducto" value="<?= $producto->getIdProducto() ?>">
+                            <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -59,17 +60,14 @@
                         <h5 class="card-title"><?= $producto->getNombre() ?></h5>
                         <div class="d-flex justify-content-between align-items-center mt-auto">
                         <div class="d-flex flex-column mb-3">
-                            <div class="p-2"><p class="card-text"><?= $producto->getPrecio() . "€" ?></p></div>
-                            <div class="p-2"><p class="card-text"><?= $producto->getIdCategoria() ?></p></div>
+                            <div><p class="card-text"><?= $producto->getPrecio() . "€" ?></p></div>
+                            <div><p class="card-text"><?= $producto->getIdCategoria() ?></p></div>
                         </div>
-
-                            <!-- Botón de carrito -->
-
-                                    <form method="post" action="<?= URL . "?controller=producto&action=carta" ?>">
-                                        <input type="hidden" name="idProducto" value="<?= $producto->getIdProducto() ?>">
-                                        <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
-                                    </form>
-
+                        <!-- Botón de carrito -->
+                        <form method="post" action="<?= URL . "?controller=producto&action=index" ?>" class="px-2">
+                            <input type="hidden" name="idProducto" value="<?= $producto->getIdProducto() ?>">
+                            <button type="submit" class="btn btn-light boton-carrito"><img src="assets\images\carrito-de-compras.png" alt="Carrito" width="25"></button>
+                        </form>
                         </div>
                     </div>
                 </div>

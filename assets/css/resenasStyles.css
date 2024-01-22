@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+#filters, #addReviewForm {
+    margin-bottom: 20px;
+}
+
+#filters label, #addReviewForm label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#reviews {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.review {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+}
+
+.review p {
+    margin: 5px 0;
+}
+
