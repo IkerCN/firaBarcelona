@@ -1,45 +1,70 @@
 <?php
-include_once 'model/ProductoDAO.php';
-include_once 'model/Pedido.php';
-include_once 'utils/CalculadoraPrecios.php';
+    include_once 'config/db.php';
 
-function api()
-{
-    if ($_POST["accion"] == 'buscar_pedido') {
-        $id_usuario = json_decode($_POST["id_usuario"]);
+class apiController{
+    function buscar_pedido()
+    {
+        $con = db::connect();
+        $stmt = $con->prepare("SELECT * FROM resenas");
+    
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        // Llama al modelo para obtener los pedidos
-        $pedidos = obtenerPedidos($id_usuario);
+        $res = [];
 
-        // Devuelve la información al JS en formato JSON
-        echo json_encode($pedidos, JSON_UNESCAPED_UNICODE);
-        return;
-    } else if ($_POST["accion"] == 'add_review') {
-        $id_pedido = json_decode($_POST["pedido"]);
-        $id_usuario = json_decode($_POST["id_usuario"]);
+        if ($result->num_rows > 0) {
+            // Obtener datos de la base de datos
+            while ($row = $result->fetch_assoc()) {
+                $res[] = array(
+                    'idPedido' => $row['idPedido'],
+                    'idUsr' => $row['idUsr'],  
+                    'nota' => $row['nota'],
+                    'txtResena' => $row['txtResena']
+                );
+            }
+        }
+        $con->close(); 
 
-        /* Otras operaciones */
-
-        // Si solo quieres devolver un pequeño mensaje,
-        // simplemente puedes hacer un echo de texto
-        echo "Bienvenido Pedrito";
+        header('Content-Type: application/json');
+        echo json_encode($res);    
         return;
     }
-}
 
-// Función para obtener pedidos desde la base de datos (sustituye esta función según tu lógica)
-function obtenerPedidos($id_usuario)
-{
-    // Aquí deberías implementar la lógica para obtener los pedidos del usuario
-    // y devolver un array con la información de los pedidos
-    // Puedes realizar una consulta a tu base de datos o cualquier otra operación necesaria
-    // Sustituye este bloque con tu propia lógica
-    $pedidos = array(
-        "pedido1" => array("id" => 1, "producto" => "Producto 1"),
-        "pedido2" => array("id" => 2, "producto" => "Producto 2"),
-        // ... Más información de pedidos si es necesario
-    );
+    function insertar_resena(){
 
-    return $pedidos;
+        $inputJson = file_get_contents('php://input');
+        $data = json_decode($inputJson, TRUE); //convert JSON into array
+
+        if(isset($data['orderNumber']) && isset($data['idUsr']) && isset($data['rating']) && isset($data['comment'])){
+
+           $orderNumber = $data['orderNumber'];
+           $idUsr = $data['idUsr'];
+           $rating = $data['rating'];
+           $comment = $data['comment'];
+
+           // Validar y procesar los datos según sea necesario
+           $con = db::connect();
+           $stmt = $con->prepare("INSERT INTO `resenas` (`idPedido`, `idUsr`, `nota`, `txtResena`) VALUES (?, ?, ?, ?)");
+           $stmt->bind_param("iiis", $orderNumber, $idUsr, $rating, $comment);
+
+
+            if ($stmt->execute()) {
+                
+                echo "Reseña agregada correctamente";
+                $idResena = $stmt->insert_id;
+
+                $stmt = $con->prepare("UPDATE `pedidos` SET `resena` = ? WHERE `idPedido` = ?");
+                $stmt->bind_param("ii", $idResena, $orderNumber);
+                $stmt->execute();
+            } else {
+                echo "Error al ejecutar la consulta: " . $stmt->error;
+            }   
+
+        // Cerrar la conexión a la base de datos
+        $con->close();
+        return;
+        
+        }
+    }
 }
 ?>

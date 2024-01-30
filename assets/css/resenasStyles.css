@@ -31,3 +31,47 @@ h1, h2 {
     margin: 5px 0;
 }
 
+.resenya-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+    margin-bottom: 8px;
+}
+
+.resena {
+    font-style: italic;
+}
+
+
+.rating-container {
+    display: flex;
+    align-items: center;
+}
+
+.rating-container label {
+    margin-right: 10px;
+}
+
+.rating-container .fa-star {
+    color: #ccc;  /* Color inicial gris */
+    cursor: pointer;
+}
+
+.rating-container .fa-star:hover,
+.rating-container .fa-star-o:hover {
+    color: #ffcc00;  /* Color al pasar el ratón sobre la estrella */
+}
+
+.rating-container input {
+    display: none;
+}
+
+.rating-container input:checked + label .fa-star,
+.rating-container input:checked ~ label .fa-star {
+    color: #ffcc00;  /* Color al estar seleccionada la estrella */
+}

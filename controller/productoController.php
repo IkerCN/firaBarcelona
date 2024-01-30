@@ -93,7 +93,7 @@
         include_once 'views/createProduct.php';
         include_once 'views/footer.php';
 
-   }
+         }
 
         public function compra(){
             session_start();
@@ -118,8 +118,8 @@
             }
 
             $precioTotal = CalculadoraPrecios::CalculadoraPrecioPedido($_SESSION['selecciones']);
-	    $precioSinIva = CalculadoraPrecios::CalculadoraPrecioSinIva($precioTotal);
-	    $precioIva = CalculadoraPrecios::CalculadoraPrecioIva($precioTotal, $precioSinIva);
+	        $precioSinIva = CalculadoraPrecios::CalculadoraPrecioSinIva($precioTotal);
+	        $precioIva = CalculadoraPrecios::CalculadoraPrecioIva($precioTotal, $precioSinIva);
 
             include_once 'views/header.php';
             include_once 'views/panelCompra.php';
@@ -202,6 +202,28 @@
             setcookie('UltimoPedido',$precioFinal,time()+3600);
             header("Location:". URL ."?controller=producto");
         }
+
+        public function mostrarPedidos(){
+
+            //iniciamos sesion
+           session_start();
+
+           $pedidos = ProductoDAO::selectPedidos($_SESSION['id_usuari']);
+           
+           include_once 'views/header.php';
+           include_once 'views/pedidos.php';
+           include_once 'views/footer.php';
+       }
+
+       public function resenas(){
+        session_start();
+        
+        $pedidos = ProductoDAO::selectPedidos($_SESSION['id_usuari']);
+
+        include_once 'views/header.php';
+        include_once 'views/resenas.php';
+        include_once 'views/footer.php';
+    }
     }
     
     

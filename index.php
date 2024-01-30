@@ -25,10 +25,9 @@
         } elseif ($_GET['controller'] == 'api') {
             // Si el controlador es 'api', redirige al apiController
             include_once 'controller/apiController.php';
-            api();
+            buscar_pedido();
         } else {
             header("Location:" . URL . "?controller=producto");
         }
     }
-    ?>
 ?>

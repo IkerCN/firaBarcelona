@@ -3,7 +3,8 @@
     include_once 'Productos.php';
     include_once 'categorias.php';
     include_once 'bebida.php';
-
+    include_once 'pedidosUsr.php';
+    
 class ProductoDAO{    
     
     public static function getAllProducts (){
@@ -21,8 +22,8 @@ class ProductoDAO{
         }
 
         return $res;
-        
     }
+
     public static function getNewProducts (){
 
         $con = db::connect();
@@ -40,6 +41,7 @@ class ProductoDAO{
         return $res;
         
     }
+
     public static function getFirstProducts (){
 
         $con = db::connect();
@@ -186,5 +188,24 @@ class ProductoDAO{
         $con->close();
 
     }
+
+    public static function selectPedidos($idUsr){
+        $con = db::connect();
+        $stmt = $con->prepare("SELECT * FROM `pedidos` WHERE `idUsr` = ? ");
+        $stmt->bind_param("i", $idUsr);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $res =[];
+
+        while($pedido = $result->fetch_object('pedidosUsr')){
+            $res[] = $pedido;
+        }
+
+        return $res;
+
+        $con->close();
+
+    }
     
+
 }
