@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Temps de generació: 07-01-2024 a les 15:07:36
+-- Temps de generació: 13-02-2024 a les 16:52:57
 -- Versió del servidor: 10.4.22-MariaDB
 -- Versió de PHP: 8.1.1
 
@@ -52,8 +52,19 @@ INSERT INTO `categorias` (`idCategoria`, `nombreCategoria`) VALUES
 CREATE TABLE `pedidos` (
   `idPedido` int(11) NOT NULL,
   `idUsr` int(11) NOT NULL,
-  `precioTotal` decimal(10,2) NOT NULL
+  `precioTotal` decimal(10,2) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `resena` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Bolcament de dades per a la taula `pedidos`
+--
+
+INSERT INTO `pedidos` (`idPedido`, `idUsr`, `precioTotal`, `fecha`, `resena`) VALUES
+(11, 1, '25.87', '2024-01-23 18:43:05', 2),
+(12, 1, '11.00', '2024-01-23 18:43:43', 1),
+(13, 1, '12.98', '2024-01-23 18:44:26', 10);
 
 -- --------------------------------------------------------
 
@@ -68,6 +79,18 @@ CREATE TABLE `pedidos_articulos` (
   `cantidad` int(11) NOT NULL,
   `precioUnidad` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Bolcament de dades per a la taula `pedidos_articulos`
+--
+
+INSERT INTO `pedidos_articulos` (`idArticulo`, `idPedido`, `idProducto`, `cantidad`, `precioUnidad`) VALUES
+(6, 11, 15, 13, '25.87'),
+(7, 12, 4, 2, '3.00'),
+(8, 12, 2, 2, '3.00'),
+(9, 12, 3, 2, '5.00'),
+(10, 13, 10, 1, '1.99'),
+(11, 13, 1, 1, '10.99');
 
 -- --------------------------------------------------------
 
@@ -106,6 +129,29 @@ INSERT INTO `productos` (`idProducto`, `nombre`, `idCategoria`, `precio`, `imgPr
 -- --------------------------------------------------------
 
 --
+-- Estructura de la taula `resenas`
+--
+
+CREATE TABLE `resenas` (
+  `idResena` int(11) NOT NULL,
+  `idPedido` int(11) NOT NULL,
+  `idUsr` int(11) NOT NULL,
+  `nota` int(11) NOT NULL,
+  `txtResena` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Bolcament de dades per a la taula `resenas`
+--
+
+INSERT INTO `resenas` (`idResena`, `idPedido`, `idUsr`, `nota`, `txtResena`) VALUES
+(1, 12, 1, 3, 'Iba a hacer una cena romántica, pero a la chica con la que quede no le hizo gracia que llevara la cena a donde quedamos (se pensó que íbamos a un restaurante xD).\r\n\r\nLa comida estaba bien.'),
+(2, 11, 1, 5, 'Noche de tranquis en verdad compramos mas pero fue culpa de que lo calculamos mal, suerte que el amigo con el que quedé tenia contactos.'),
+(10, 13, 1, 4, 'Estaba muy bueno que ganas de otra feria pronto');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de la taula `usuarios`
 --
 
@@ -115,25 +161,25 @@ CREATE TABLE `usuarios` (
   `apellido` varchar(50) NOT NULL,
   `email` varchar(40) NOT NULL,
   `password` varchar(25) NOT NULL,
-  `admin` tinyint(1) NOT NULL
+  `admin` tinyint(1) NOT NULL,
+  `puntos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Bolcament de dades per a la taula `usuarios`
 --
 
-INSERT INTO `usuarios` (`idUsr`, `nombre`, `apellido`, `email`, `password`, `admin`) VALUES
-(1, 'iker', 'c', 'iker@gmail.com', '1234', 0),
-(5, 'iker', 'c', '123@dww', '1234', 0),
-(7, 'iker69', 'c', '123@dww', '123', 0),
-(8, 'iker3', 'c', '123@dww', '123', 0),
-(9, 'iker3', 'c', '123@dww', '123', 0),
-(10, 'iker3', 'c', '123@dww', '123', 0),
-(11, 'iker3', 'c', '123@dww', '123', 0),
-(12, 'iker3', 'c', '123@dww', '123', 0),
-(13, '123', 'c', '123@123', '123', 0),
-(14, '123', 'c', '123@123', '123', 0),
-(15, 'iker', 'canda', 'iker@123.com', '123', 0);
+INSERT INTO `usuarios` (`idUsr`, `nombre`, `apellido`, `email`, `password`, `admin`, `puntos`) VALUES
+(1, 'iker', 'c', 'iker@gmail.com', '1234', 0, 289),
+(5, 'iker', 'c', '123@dww', '1234', 0, 0),
+(7, 'iker69', 'c', '123@dww', '123', 0, 199),
+(8, 'iker3', 'c', '123@dww', '123', 0, 0),
+(9, 'iker3', 'c', '123@dww', '123', 0, 0),
+(10, 'iker3', 'c', '123@dww', '123', 0, 0),
+(11, 'iker3', 'c', '123@dww', '123', 0, 0),
+(12, 'iker3', 'c', '123@dww', '123', 0, 0),
+(13, '123', 'c', '123@123', '123', 0, 296),
+(15, 'iker', 'canda', 'iker@123.com', '123', 0, 0);
 
 --
 -- Índexs per a les taules bolcades
@@ -149,8 +195,7 @@ ALTER TABLE `categorias`
 -- Índexs per a la taula `pedidos`
 --
 ALTER TABLE `pedidos`
-  ADD PRIMARY KEY (`idPedido`),
-  ADD KEY `FKidUsrDBusuarios` (`idUsr`);
+  ADD PRIMARY KEY (`idPedido`);
 
 --
 -- Índexs per a la taula `pedidos_articulos`
@@ -166,6 +211,12 @@ ALTER TABLE `pedidos_articulos`
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`idProducto`),
   ADD KEY `FKidCategoriaDBproductos` (`idCategoria`);
+
+--
+-- Índexs per a la taula `resenas`
+--
+ALTER TABLE `resenas`
+  ADD PRIMARY KEY (`idResena`);
 
 --
 -- Índexs per a la taula `usuarios`
@@ -187,19 +238,25 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT per la taula `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT per la taula `pedidos_articulos`
 --
 ALTER TABLE `pedidos_articulos`
-  MODIFY `idArticulo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idArticulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT per la taula `productos`
 --
 ALTER TABLE `productos`
   MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT per la taula `resenas`
+--
+ALTER TABLE `resenas`
+  MODIFY `idResena` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT per la taula `usuarios`
