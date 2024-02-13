@@ -20,13 +20,15 @@
         </select>
         <label>Ordenar per nota:</label>
         <select id="sortOrder">
-            <option value="asc">Ascendent</option>
-            <option value="desc">Descendent</option>
+            <option value="desc">Ascendent</option>
+            <option value="asc">Descendent</option>
         </select>
     </div>
 
     <div id="resenyes-container"></div>
-
+    <div id="noReviewMessage" style="display: none;">
+        <p>Todos tus pedidos tienen ya una reseña.</p>
+    </div>
     <div class="container mt-5">
         <form id="addReviewForm">
             <h2 class="mb-4">Afegir Ressenya</h2>
@@ -37,22 +39,19 @@
                 $enviar = true;
                if (empty($pedidos)) {
                    echo '<select class="form-control" id="orderNumber" required disabled></select>';  
-                   echo 'No tienes pedidos';
+                   echo '<option value="0" id="noPedidos" active>Haz algun pedido para poder insertar reseñas.</option>';
                    $enviar = false;
                 }else{                        
                     echo '<select class="form-control" id="orderNumber" required>';
-                    $conResena = false;
                     foreach ($pedidos as $pedido){
+                        $enviar = false;
                         if ($pedido->getResena() == '' || $pedido->getResena() == ' ') {
-                            echo "<option value='".$pedido->getIdPedido()."'>".$pedido->getIdPedido()."</option>";
-                            $conResena = true;
+                            echo "<option value='".$pedido->getIdPedido()."'>".$pedido->getIdPedido()."</option>";  
+                            $enviar = true;
                         }
                     }
+                    echo '<option value="1" id="noPedidos" hidden>Todos tus pedidos tienen ya una reseña.</option>';                        
                     echo '</select>';
-                    if(!$conResena){
-                        echo 'Todos tus pedidos tienen ya una reseña';
-                        $enviar = false;
-                    }
                 }
             
             ?>
@@ -69,6 +68,7 @@
                 </select>
             </div>
             
+            <!-- Prueba de iconos de estrella
             <div class="rating-container">
                 <label for="star1"><i class="fas fa-star"></i></label>
                 <input type="radio" id="star1" name="rating" value="1">
@@ -84,7 +84,7 @@
                     
                 <label for="star5"><i class="fas fa-star"></i></label>
                 <input type="radio" id="star5" name="rating" value="5">
-            </div>
+            </div> -->
     
             <div class="form-group">
                 <label for="comment">Comentari:</label>
@@ -99,7 +99,7 @@
                    
         <?php }else{ ?>
             <input hidden name="idUsr" id="idUsr" value="<?=$_SESSION['id_usuari']?>">
-            <button type="button" class="btn btn-primary" onclick="submitReview()">Afegir Ressenya</button>
+            <button type="button" class="btn btn-primary" id="btnInsertar" onclick="submitReview()">Afegir Ressenya</button>
 
             <?php 
             }
@@ -108,6 +108,7 @@
     </div>
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="https://unpkg.com/notie"></script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>

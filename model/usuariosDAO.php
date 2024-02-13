@@ -4,6 +4,23 @@
 
 class usuariosDAO{    
     
+    public static function getAllUsers(){
+        $con = db::connect();
+        $stmt = $con->prepare("SELECT * FROM usuarios");
+   
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $res =[];
+
+        while($producto = $result->fetch_object('usuarios')){
+            $res[] = $producto;
+        }
+
+        return $res;
+    }
+
+
     public static function insertUser (){
 
         $insert = "select * from usuarios;";
@@ -92,5 +109,15 @@ class usuariosDAO{
          }
     }
 
+    public static function actualizarPuntos($idUsr, $puntos){
+        $con = db::connect();
 
+        $stmt = $con->prepare("UPDATE `usuarios` SET `puntos` = ? WHERE `idUsr` = ?");
+        $stmt->bind_param("ii", $puntos, $idUsr);
+
+        $stmt->execute();
+
+        $con->close();
+
+    }
 }

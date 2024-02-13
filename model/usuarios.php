@@ -8,6 +8,7 @@ class Usuarios{
     protected $email;
     protected $password;
     protected $admin;
+    protected $puntos;
 
     public function __construct(){
     }
@@ -128,6 +129,26 @@ class Usuarios{
     public function setAdmin($admin)
     {
         $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of puntos
+     */ 
+    public function getPuntos()
+    {
+        return $this->puntos;
+    }
+
+    /**
+     * Set the value of puntos
+     *
+     * @return  self
+     */ 
+    public function setPuntos($puntos)
+    {
+        $this->puntos = $puntos;
 
         return $this;
     }

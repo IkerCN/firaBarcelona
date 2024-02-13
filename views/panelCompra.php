@@ -71,16 +71,20 @@
           </form>
         
         <?php } else {?>
-          <form action="<?=URL ."?controller=producto&action=confirmar"?>" method="post">
-                        <input hidden name="cantidadFinal" value="<?=$precioTotal?>">
-                        <input hidden name="idUsr" value="<?=$_SESSION['id_usuari']?>">
-                        <button type="submit" class="btn btn-primary"> CONFIRMAR PEDIDO </button>
+          <form action="<?=URL ."?controller=producto&action=confirmar"?>" method="post" id="finalizarCompra">
+                        <input hidden name="cantidadFinal" id="cantidadFinal" value="<?=$precioTotal?>">
+                        <input hidden name="idUsr" id="idUsr" value="<?=$_SESSION['id_usuari']?>">
+                        <button type="button" class="btn btn-primary" onclick="procesarCompra()"> CONFIRMAR PEDIDO </button>
           </form>
           <?php 
 		}?>
+    <p id="puntos-usuario">Puntos del usuario: Cargando...</p>
+    
         </div>
     </div>
   </div>
 </div>
+<script src="https://unpkg.com/notie"></script>
+<script src="assets/js/scriptPuntos.js"></script>
 </body>
 </html>
