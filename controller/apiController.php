@@ -6,9 +6,22 @@
 
 class apiController{
     public function index(){       
+        $idPedido = $_GET['id'] ?? null;
+                
+        include_once 'views/header.php';
+
+        if ($idPedido !== null) {
+
+        $pedido = ProductoDAO::getPedidos($idPedido);
+        $productos = ProductoDAO::getProductosPedido($idPedido);
 
         include_once 'views/header.php';
-        //incluir vista del producto http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=mostrar_pedido?id=43
+        include_once 'views/pedidoQR.php';
+        include_once 'views/footer.php';
+
+        }else{
+            header("Location:". URL ."?controller=producto");
+        }
         include_once 'views/footer.php';
     }
 
