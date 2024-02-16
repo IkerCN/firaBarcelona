@@ -212,7 +212,7 @@ function procesarCompra() {
 function generarCodigoQR(idPedido) {
     // Crear el código QR utilizando QRcodejs
     const qr = new QRCode(document.getElementById('qr-code'), {
-        text: `/?controller=api&action=mostrar_pedido?id=${idPedido}`, 
+        text: `ikercandalija.bernat2024.es/?controller=api&action=mostrar_pedido?id=${idPedido}`, 
         width: 128,
         height: 128,
     });
