@@ -40,7 +40,38 @@ function procesarCompra() {
     let cantidadFinal = document.getElementById('cantidadFinal').value;
     let puntosElement = document.getElementById('puntos-usuario');
     let puntosDisponibles = parseInt(puntosElement.textContent.split(': ')[1]);
+
+    //Añado parametros para añadir la propina en la base de datos
+    let montoPropinaInput = document.getElementById('montoPropina');
+    let totalConPropina = document.getElementById('totalConPropina').innerHTML;
+
+    let porcentajePropina = parseInt(montoPropinaInput.value) + '%';
+    let totalConPropinaElement = parseFloat(totalConPropina.replace('€', '').trim());
    
+    //Añado los articulos del pedido
+    let cantidadArt = document.getElementById('total').value;
+    let articulos = [];
+
+    //Declaro variable para generar el QR
+
+    // forech de cantidatArt para recoger los valos cantidad'i' precio'i' id'i'
+    for (let i = 0; i < cantidadArt; i++) {
+        
+        let precioArtElement = document.getElementById('precio' + i).innerText;
+        let precioArt = parseFloat(precioArtElement.replace('€', '').trim());
+        let unidadesArt = document.getElementById('cantidad'+i).innerText;
+        let idArt = document.getElementById('id'+i).value;
+
+        let art = {
+            precioArt:precioArt,
+            unidadesArt:unidadesArt,
+            idArt:idArt
+        };
+        articulos.push(art);
+    }
+
+
+
     if (puntosDisponibles > 0) {
         const utilizarPuntos = confirm("¿Quieres utilizar puntos en esta compra?");
         
@@ -53,7 +84,10 @@ function procesarCompra() {
                     idUsuario: idUsuario,
                     cantidadFinal: cantidadFinal,
                     puntosDisponibles: puntosDisponibles,
-                    puntosUtilizados: puntosUtilizados
+                    puntosUtilizados: puntosUtilizados,
+                    porcentajePropina: porcentajePropina,
+                    totalConPropinaElement: totalConPropinaElement,
+                    articulos:articulos
                 };
                 let reviewJSON = JSON.stringify(reviewData);
 
@@ -65,33 +99,107 @@ function procesarCompra() {
                     },
                     body: reviewJSON
                 })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                        // Actualiza los puntos en el front-end después de la compra
-                        obtenerPuntosUsuario();
-                        notie.alert({
-                            type: 1, 
-                            text: `Has utilizado ${puntosUtilizados} puntos y has ganado ${data}.`,
-                            time: 4, 
-                          })                  
-                    
+                    // Actualiza los puntos en el front-end después de la compra
+                    obtenerPuntosUsuario();     
+                    var puntosGanados = data.puntosGanados;
+                    var idPedido = data.idPedido;
+                    generarCodigoQR(idPedido).then(qrUrl => {
+                        // Mostrar la alerta con la URL del código QR
+                        Swal.fire({
+                            title: 'Pedido exitoso',
+                            text: 'Escanea el siguiente código QR para ver tu pedido',
+                            imageUrl: qrUrl,
+                            imageAlt: 'Código QR del pedido',
+                            showCancelButton: false,
+                            showCloseButton: false,
+                            confirmButtonText: 'Continuar',
+                        }).then((result) => {
+                            // Lógica después de hacer clic en "Continuar"
+                            setTimeout(function () {
+                                document.getElementById('finalizarCompra').submit();
+                            }, 3000);
+                        });
+                    });
+
+                      notie.alert({
+                        type: 1, 
+                        text: `Has utilizado ${puntosUtilizados} puntos y has ganado ${puntosGanados} puntos.`,
+                        time: 4,
+                      })
+                  
                 })
-                .catch(error => console.error('Error al utilizar puntos:', error));
+                .catch(error => console.error('Error al no utilizar puntos:', error));
             } else {
                 notie.alert({
                     type: 3, 
                     text: 'Cantidad de puntos no valida',
                   })
             }
+        }else{
+            let reviewData = {
+                idUsuario: idUsuario,
+                cantidadFinal: cantidadFinal,
+                puntosDisponibles: puntosDisponibles,
+                puntosUtilizados: 0,
+                porcentajePropina: porcentajePropina,
+                totalConPropinaElement: totalConPropinaElement,
+                articulos:articulos
+            };
+            let reviewJSON = JSON.stringify(reviewData);
+            // Realiza la petición POST para utilizar puntos en el servidor
+            fetch(`http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=obtenerPuntos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: reviewJSON
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Actualiza los puntos en el front-end después de la compra
+                obtenerPuntosUsuario();     
+                var puntosGanados = data.puntosGanados;
+                var idPedido = data.idPedido;
+                generarCodigoQR(idPedido).then(qrUrl => {
+                    // Mostrar la alerta con la URL del código QR
+                    Swal.fire({
+                        title: 'Pedido exitoso',
+                        text: 'Escanea el siguiente código QR para ver tu pedido',
+                        imageUrl: qrUrl,
+                        imageAlt: 'Código QR del pedido',
+                        showCancelButton: false,
+                        showCloseButton: false,
+                        confirmButtonText: 'Continuar',
+                    }).then((result) => {
+                        // Lógica después de hacer clic en "Continuar"
+                        setTimeout(function () {
+                            document.getElementById('finalizarCompra').submit();
+                        }, 3000);
+                    });
+                });
+
+                  notie.alert({
+                    type: 1, 
+                    text: `Has ganado ${puntosGanados} puntos.`,
+                  })
+    
+            })
+            .catch(error => console.error('Error al no utilizar puntos:', error));
         }
     }else{
         
         let reviewData = {
             idUsuario: idUsuario,
             cantidadFinal: cantidadFinal,
-            puntosDisponibles: puntosDisponibles,
-            puntosUtilizados: 0
+            puntosDisponibles: 0,
+            puntosUtilizados: 0,
+            porcentajePropina: porcentajePropina,
+            totalConPropinaElement: totalConPropinaElement,
+            articulos:articulos
         };
         let reviewJSON = JSON.stringify(reviewData);
         // Realiza la petición POST para utilizar puntos en el servidor
@@ -102,23 +210,93 @@ function procesarCompra() {
             },
             body: reviewJSON
         })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
             console.log(data);
-
             // Actualiza los puntos en el front-end después de la compra
-            obtenerPuntosUsuario();               
-            notie.alert({
+            obtenerPuntosUsuario();     
+            var puntosGanados = data.puntosGanados;
+            var idPedido = data.idPedido;
+            generarCodigoQR(idPedido).then(qrUrl => {
+                // Mostrar la alerta con la URL del código QR
+                Swal.fire({
+                    title: 'Pedido exitoso',
+                    text: 'Escanea el siguiente código QR para ver tu pedido',
+                    imageUrl: qrUrl,
+                    imageAlt: 'Código QR del pedido',
+                    showCancelButton: false,
+                    showCloseButton: false,
+                    confirmButtonText: 'Continuar',
+                }).then((result) => {
+                    // Lógica después de hacer clic en "Continuar"
+                    setTimeout(function () {
+                        document.getElementById('finalizarCompra').submit();
+                    }, 3000);
+                });
+            });
+
+              notie.alert({
                 type: 1, 
-                text: `Has ganado ${data} puntos.`,
-              })
-            
+                text: `Has ganado ${puntosGanados} puntos.`,
+              })          
         })
         .catch(error => console.error('Error al no utilizar puntos:', error));
+
     }
-    setTimeout(function() {
-        document.getElementById('finalizarCompra').submit();
-    }, 3000); // 2000 milisegundos = 2 segundos
 }
 
+function generarCodigoQR(idPedido) {
+    // Crear el código QR utilizando QRcodejs
+    const qr = new QRCode(document.getElementById('qr-code'), {
+        text: `http://tu-api.com/mostrar_pedido?id=${idPedido}`, // Reemplaza con la URL correcta de tu API
+        width: 128,
+        height: 128,
+    });
 
+    // Hacer una petición fetch para obtener la URL del QR desde la API
+    fetch(`http://tu-api.com/generar_qr?id_pedido=${idPedido}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        const qrUrl = data.qrUrl; // Ajusta esto según la estructura de tu respuesta API
+        // Puedes mostrar el código QR en algún lugar de tu interfaz si es necesario
+        return qrUrl;
+    })
+    .catch(error => {
+        console.error('Error al obtener la URL del QR:', error);
+        return null;
+    });
+}
+//Codigo duplicado
+
+//function generarCodigoQR(idPedido) {
+//    // Crear el código QR utilizando QRcodejs
+//    const qr = new QRCode(document.getElementById('qr-code'), {
+//        text: `http://tu-api.com/mostrar_pedido?id=${idPedido}`, // Reemplaza con la URL correcta de tu API
+//        width: 128,
+//        height: 128,
+//    });
+//
+//    // Hacer una petición fetch para obtener la URL del QR desde la API
+//    return fetch(`http://tu-api.com/generar_qr?id_pedido=${idPedido}`, {
+//        method: 'GET',
+//        headers: {
+//            'Content-Type': 'application/json',
+//        },
+//    })
+//    .then(response => response.json())
+//    .then(data => {
+//        const qrUrl = data.qrUrl; // Ajusta esto según la estructura de tu respuesta API
+//        // Puedes mostrar el código QR en algún lugar de tu interfaz si es necesario
+//        qr.makeCode(qrUrl); // Actualiza el código QR en el div
+//        return qrUrl;
+//    })
+//    .catch(error => {
+//        console.error('Error al obtener la URL del QR:', error);
+//        return null;
+//    });
+//}

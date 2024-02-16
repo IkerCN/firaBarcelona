@@ -188,13 +188,9 @@
         }
 
         public function confirmar(){
-            //Te almacena el pedido en la BD
-            $idUsr = $_POST['idUsr'];
-            $precioFinal = $_POST['cantidadFinal'];
+           //editar para el QR
             session_start();
 
-            $producto = ProductoDAO::createPedido($idUsr, $precioFinal);
-            
             //Borrmos sesion de pedido
             unset($_SESSION['selecciones']);
 

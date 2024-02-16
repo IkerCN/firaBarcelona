@@ -1,6 +1,7 @@
 <?php
     include_once 'config/db.php';
     include_once 'model/usuariosDAO.php';
+    include_once 'model/productoDAO.php';
     include_once 'utils/CalculadoraPrecios.php';
 
 class apiController{
@@ -104,14 +105,16 @@ class apiController{
         elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $inputJson = file_get_contents('php://input'); 
             $data = json_decode($inputJson, TRUE);
-
             
-            if(isset($data['idUsuario']) && isset($data['puntosDisponibles']) && isset($data['puntosUtilizados']) && isset($data['cantidadFinal'])){
+            if(isset($data['idUsuario']) && isset($data['puntosDisponibles']) && isset($data['puntosUtilizados']) && isset($data['cantidadFinal']) && isset($data['porcentajePropina']) && isset($data['totalConPropinaElement']) && isset($data['articulos'])){
 
                $idUsuario = $data['idUsuario'];
                $puntosOriginales = $data['puntosDisponibles'];
                $puntosUtilizados = $data['puntosUtilizados'];
                $cantidadFinal = $data['cantidadFinal'];
+               $porcentajePropina = $data['porcentajePropina'];
+               $totalConPropinaElement = $data['totalConPropinaElement'];
+               $articulos = $data['articulos'];
 
                 // Verificar si los datos son válidos
                 if ($puntosUtilizados !== null ) {
@@ -127,9 +130,16 @@ class apiController{
                 
                     // Actualizar los puntos totales del usuario
                     usuariosDAO::actualizarPuntos($idUsuario, $puntosFinales);
+
+                    //Te almacena el pedido en la BD
+                    $idPedido = ProductoDAO::createPedido($idUsuario, $cantidadFinal, $porcentajePropina, $totalConPropinaElement, true, $articulos);
                 
-                    // Devolver una respuesta de éxito en formato JSON
-                    echo json_encode([$puntosGanados]);
+                    $respuestaApi = array(
+                        "puntosGanados" => $puntosGanados,
+                        "idPedido" => $idPedido
+                    );
+                    
+                    echo json_encode($respuestaApi);
                 } else {
                     // Datos no válidos, responder con un código de error
                     http_response_code(400);
@@ -145,6 +155,7 @@ class apiController{
         }
         return;
     }
+
 }
 
 ?>

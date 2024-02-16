@@ -166,26 +166,36 @@ class ProductoDAO{
         
     }
 
-    public static function createPedido($idUsr, $precioFinal){
+    public static function createPedido($idUsr, $precioFinal, $porcentajePropina = null, $totalConPropina = null, $propina = false, $articulos){
         $con = db::connect();
-        $stmt = $con->prepare("INSERT into `pedidos` (`idUsr`, `precioTotal`) values (?, ?) ");
-        $stmt->bind_param("id", $idUsr, $precioFinal);
-        $stmt->execute();
+        
+        //Confirmamos si se le pasa propina
+        if($propina){
+            $stmtPedidos = $con->prepare("INSERT into `pedidos` (`idUsr`, `precioTotal`, `propina`, `totalConPropina`) values (?, ?, ?, ?) ");
+            $stmtPedidos->bind_param("idsd", $idUsr, $precioFinal, $porcentajePropina, $totalConPropina);
+        }else{
+            $stmtPedidos = $con->prepare("INSERT into `pedidos` (`idUsr`, `precioTotal`) values (?, ?) ");
+            $stmtPedidos->bind_param("id", $idUsr, $precioFinal);
+        }
+
+        $stmtPedidos->execute();
 
         $pedido = $con->query("SELECT idPedido FROM pedidos ORDER BY fecha DESC LIMIT 1");
         $fila = $pedido->fetch_assoc();
         $idPedido = intval($fila['idPedido']);
-        foreach($_SESSION['selecciones'] as $producto){
-            $productoId = $producto->getProducto()->getIdProducto();
-            $precioProd = $producto->precioTotal();
-            $unidadesProd = $producto->getCantidad();
+        foreach ($articulos as $articulo) {
+            $precioArt = $articulo['precioArt'];
+            $unidadesArt = $articulo['unidadesArt'];
+            $idArt = $articulo['idArt'];
 
-            $stmt = $con->prepare("INSERT into `pedidos_articulos` (`idPedido`, `idProducto`, `cantidad`, `precioUnidad`) values (?, ?, ?, ?) ");
-            $stmt->bind_param("iiid", $idPedido, $productoId, $unidadesProd, $precioProd);
-            $stmt->execute();
+            $stmtArticulo = $con->prepare("INSERT into `pedidos_articulos` (`idPedido`, `idProducto`, `cantidad`, `precioUnidad`) values (?, ?, ?, ?) ");
+            $stmtArticulo->bind_param("iiid", $idPedido, $idArt, $unidadesArt, $precioArt);
+            $stmtArticulo->execute();
         }
 
         $con->close();
+
+        return $idPedido; 
 
     }
 
