@@ -106,23 +106,10 @@ function procesarCompra() {
                     obtenerPuntosUsuario();     
                     var puntosGanados = data.puntosGanados;
                     var idPedido = data.idPedido;
-                    generarCodigoQR(idPedido).then(qrUrl => {
-                        // Mostrar la alerta con la URL del código QR
-                        Swal.fire({
-                            title: 'Pedido exitoso',
-                            text: 'Escanea el siguiente código QR para ver tu pedido',
-                            imageUrl: qrUrl,
-                            imageAlt: 'Código QR del pedido',
-                            showCancelButton: false,
-                            showCloseButton: false,
-                            confirmButtonText: 'Continuar',
-                        }).then((result) => {
-                            // Lógica después de hacer clic en "Continuar"
-                            setTimeout(function () {
-                                document.getElementById('finalizarCompra').submit();
-                            }, 3000);
-                        });
-                    });
+                    generarCodigoQR(idPedido);
+
+                    document.getElementById('bloqueCompra').style.display = 'none';
+                    document.getElementById('qr-code').style.display = 'block';
 
                       notie.alert({
                         type: 1, 
@@ -164,23 +151,10 @@ function procesarCompra() {
                 obtenerPuntosUsuario();     
                 var puntosGanados = data.puntosGanados;
                 var idPedido = data.idPedido;
-                generarCodigoQR(idPedido).then(qrUrl => {
-                    // Mostrar la alerta con la URL del código QR
-                    Swal.fire({
-                        title: 'Pedido exitoso',
-                        text: 'Escanea el siguiente código QR para ver tu pedido',
-                        imageUrl: qrUrl,
-                        imageAlt: 'Código QR del pedido',
-                        showCancelButton: false,
-                        showCloseButton: false,
-                        confirmButtonText: 'Continuar',
-                    }).then((result) => {
-                        // Lógica después de hacer clic en "Continuar"
-                        setTimeout(function () {
-                            document.getElementById('finalizarCompra').submit();
-                        }, 3000);
-                    });
-                });
+                generarCodigoQR(idPedido);
+
+                document.getElementById('bloqueCompra').style.display = 'none';
+                document.getElementById('qr-code').style.display = 'block';
 
                   notie.alert({
                     type: 1, 
@@ -217,23 +191,10 @@ function procesarCompra() {
             obtenerPuntosUsuario();     
             var puntosGanados = data.puntosGanados;
             var idPedido = data.idPedido;
-            generarCodigoQR(idPedido).then(qrUrl => {
-                // Mostrar la alerta con la URL del código QR
-                Swal.fire({
-                    title: 'Pedido exitoso',
-                    text: 'Escanea el siguiente código QR para ver tu pedido',
-                    imageUrl: qrUrl,
-                    imageAlt: 'Código QR del pedido',
-                    showCancelButton: false,
-                    showCloseButton: false,
-                    confirmButtonText: 'Continuar',
-                }).then((result) => {
-                    // Lógica después de hacer clic en "Continuar"
-                    setTimeout(function () {
-                        document.getElementById('finalizarCompra').submit();
-                    }, 3000);
-                });
-            });
+            generarCodigoQR(idPedido);
+
+            document.getElementById('bloqueCompra').style.display = 'none';
+            document.getElementById('qr-code').style.display = 'block';
 
               notie.alert({
                 type: 1, 
@@ -243,60 +204,17 @@ function procesarCompra() {
         .catch(error => console.error('Error al no utilizar puntos:', error));
 
     }
+    setTimeout(function () {
+        document.getElementById('finalizarCompra').submit();
+    }, 8000);
 }
 
 function generarCodigoQR(idPedido) {
     // Crear el código QR utilizando QRcodejs
     const qr = new QRCode(document.getElementById('qr-code'), {
-        text: `http://tu-api.com/mostrar_pedido?id=${idPedido}`, // Reemplaza con la URL correcta de tu API
+        text: `http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=mostrar_pedido?id=${idPedido}`, 
         width: 128,
         height: 128,
     });
-
-    // Hacer una petición fetch para obtener la URL del QR desde la API
-    fetch(`http://tu-api.com/generar_qr?id_pedido=${idPedido}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        const qrUrl = data.qrUrl; // Ajusta esto según la estructura de tu respuesta API
-        // Puedes mostrar el código QR en algún lugar de tu interfaz si es necesario
-        return qrUrl;
-    })
-    .catch(error => {
-        console.error('Error al obtener la URL del QR:', error);
-        return null;
-    });
+    
 }
-//Codigo duplicado
-
-//function generarCodigoQR(idPedido) {
-//    // Crear el código QR utilizando QRcodejs
-//    const qr = new QRCode(document.getElementById('qr-code'), {
-//        text: `http://tu-api.com/mostrar_pedido?id=${idPedido}`, // Reemplaza con la URL correcta de tu API
-//        width: 128,
-//        height: 128,
-//    });
-//
-//    // Hacer una petición fetch para obtener la URL del QR desde la API
-//    return fetch(`http://tu-api.com/generar_qr?id_pedido=${idPedido}`, {
-//        method: 'GET',
-//        headers: {
-//            'Content-Type': 'application/json',
-//        },
-//    })
-//    .then(response => response.json())
-//    .then(data => {
-//        const qrUrl = data.qrUrl; // Ajusta esto según la estructura de tu respuesta API
-//        // Puedes mostrar el código QR en algún lugar de tu interfaz si es necesario
-//        qr.makeCode(qrUrl); // Actualiza el código QR en el div
-//        return qrUrl;
-//    })
-//    .catch(error => {
-//        console.error('Error al obtener la URL del QR:', error);
-//        return null;
-//    });
-//}

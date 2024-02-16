@@ -5,6 +5,13 @@
     include_once 'utils/CalculadoraPrecios.php';
 
 class apiController{
+    public function index(){       
+
+        include_once 'views/header.php';
+        //incluir vista del producto http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=mostrar_pedido?id=43
+        include_once 'views/footer.php';
+    }
+
     function buscar_pedido()
     {
         $con = db::connect();
@@ -155,6 +162,60 @@ class apiController{
         }
         return;
     }
+
+    function mostrar_pedido() {
+        // Obtener el ID del pedido desde la solicitud GET
+        $idPedido = $_GET['id'] ?? null;
+    
+        if ($idPedido !== null) {
+            // Aquí debes recuperar la información del pedido desde tu base de datos
+            // y devolverla como un JSON
+            $pedidoInfo = obtenerInformacionPedido($idPedido);
+    
+            if ($pedidoInfo !== null) {
+                header('Content-Type: application/json');
+                echo json_encode($pedidoInfo);
+            } else {
+                http_response_code(404);
+                echo json_encode(['error' => 'Pedido no encontrado']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID de pedido no proporcionado en la solicitud']);
+        }
+    }
+    
+    function obtenerInformacionPedido($idPedido) {
+
+        $pedido = ProductoDAO::getPedidos($idPedido);
+        $productos = ProductoDAO::getProductosPedido($idPedido);
+        
+        $pedidoInfo = [
+            'pedido' => $pedido,
+            'productos' => $productos
+            // Otros campos del pedido...
+        ];
+    
+        return $pedidoInfo;
+    }
+
+    function generar_qr() {
+        // Obtener el ID del pedido desde la solicitud GET
+        $idPedido = $_GET['id_pedido'] ?? null;
+    
+        if ($idPedido !== null) {
+            // Aquí debes generar la URL del QR y devolverla como un JSON
+            $qrUrl = "http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=mostrar_pedido?id=${idPedido}";
+    
+            header('Content-Type: application/json');
+            echo json_encode(['qrUrl' => $qrUrl]);
+
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID de pedido no proporcionado en la solicitud']);
+        }
+    }
+
 
 }
 

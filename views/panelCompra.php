@@ -10,8 +10,9 @@
   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
 </head>
 <body>
-<div class="container mt-4">
-  <div class="row">
+<div class="container mt-4" >
+    <div id="qr-code" style="display:none"></div>
+  <div class="row" id="bloqueCompra" style="">
     <!-- Div para productos -->
     <div class="col-lg-8">
     <h3>Carrito</h3>
@@ -55,7 +56,7 @@
         </div>
             <!-- Fin del bloque de producto -->
     </div>
-    <div id="qr-code"></div>
+    <div id="qr-code" style="display:none"></div>
     <!-- Div para resumen del pedido -->
     <div class="col-lg-4">
 
@@ -104,6 +105,7 @@
 <script src="https://unpkg.com/notie"></script>
 <script src="assets/js/scriptPuntos.js"></script>
 <script src="assets/js/scriptPropina.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </body>
