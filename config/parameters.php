@@ -1,4 +1,4 @@
 <?php 
-    define("URL", "ikercandalija.bernat2024.es");
+    define("URL", "/");
     define("action_default","index");
 ?>

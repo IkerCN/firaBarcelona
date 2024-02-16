@@ -218,7 +218,7 @@ class apiController{
     
         if ($idPedido !== null) {
             // Aquí debes generar la URL del QR y devolverla como un JSON
-            $qrUrl = "ikercandalija.bernat2024.es?controller=api&action=mostrar_pedido?id=${idPedido}";
+            $qrUrl = "/?controller=api&action=mostrar_pedido?id=${idPedido}";
     
             header('Content-Type: application/json');
             echo json_encode(['qrUrl' => $qrUrl]);
