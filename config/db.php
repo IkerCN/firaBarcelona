@@ -1,5 +1,5 @@
 <?php
-//localhost:3306  iker  ~979xy6Qy  firabarcelona_bd
+//localhost:3306  iker2  ~979xy6Qy  firabarcelona_bd
 class db{
     public static function connect($host = 'localhost',$usr = 'root',$pass = '',$base = 'firabarcelona'){
         $con = new mysqli($host,$usr,$pass,$base);
