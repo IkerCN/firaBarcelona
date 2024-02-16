@@ -11,17 +11,28 @@
 </head>
 <body>
 
-    <?php foreach ($categorias as $categoria){?>
+<div class="container">
+    <h4>Filtra por categoria:</h4>
+    <form id="categoryFilterForm">
+        <?php foreach ($categorias as $categoria) { ?>
+            <label>
+                <input type="checkbox" name="categories[]" value="<?= $categoria->getNombreCategoria() ?>">
+                <?= $categoria->getNombreCategoria() ?>
+            </label>
+        <?php } ?>
+    </form>
+</div>
 
+    <?php foreach ($categorias as $categoria){?>
     <div class="container py-2 my-4">
       <h3><?=$categoria->getNombreCategoria()?></h3>
-      <div class="row">
+      <div class="row product-list">
         <?php if($categoria->getNombreCategoria() == "Bebidas"){  ?>
 
             <?php foreach ($bebidas as $bebida){
             if($bebida->getIdCategoria() == $categoria->getNombreCategoria()) {
             ?>
-            <div class="col-md-3 mb-4">
+        <div class="col-md-3 mb-4 product <?= $producto->getIdCategoria() ?>">
                 <div class="border-0 card">
                     <img src="assets\images\<?= $bebida->getImgProducto() ?>" class="object-fit-scale" alt="Producto 1">
                     <div class="card-body d-flex flex-column">
@@ -53,7 +64,7 @@
             <?php foreach ($allProducts as $producto){
             if($producto->getIdCategoria() == $categoria->getNombreCategoria()) {
             ?>
-            <div class="col-md-3 mb-4">
+        <div class="col-md-3 mb-4 product <?= $producto->getIdCategoria() ?>">
                 <div class="border-0 card">
                     <img src="assets\images\<?= $producto->getImgProducto() ?>" class="object-fit-scale" alt="Producto 1">
                     <div class="card-body d-flex flex-column">
@@ -80,6 +91,7 @@
    </div>
 
     <?php } ?>
+    <script src="assets/js/scriptFiltros.js"></script>
 
     </body>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
