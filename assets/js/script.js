@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    fetch("/?controller=api&action=buscar_pedido", {
+    fetch("http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=buscar_pedido", {
         method: 'POST',
     })
 
@@ -42,7 +42,7 @@ console.log(noPedido);
 });
 function actualizarResenyes() {
     // Realizar la solicitud para obtener las reseñas actualizadas
-    fetch("/?controller=api&action=buscar_pedido", {
+    fetch("http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=buscar_pedido", {
         method: 'POST',
     })
     .then(response => response.json())
@@ -159,7 +159,7 @@ function submitReview() {
         let reviewJSON = JSON.stringify(reviewData);
 
         // Realizar la solicitud para insertar la reseña
-        fetch('/?controller=api&action=insertar_resena', {
+        fetch('http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=insertar_resena', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

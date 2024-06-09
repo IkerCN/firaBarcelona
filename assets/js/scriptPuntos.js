@@ -1,4 +1,4 @@
-// Obtén finalizarCompralos puntos del usuario al cargar la página
+// Obtén los puntos del usuario al cargar la página
 document.addEventListener('DOMContentLoaded', obtenerPuntosUsuario);
 
 // Función para obtener los puntos del usuario mediante fetch
@@ -8,7 +8,7 @@ function obtenerPuntosUsuario() {
     // Verificar si el ID de usuario está disponible
     if (idUsuario) {
         // Hacer la solicitud de puntos utilizando fetch
-        fetch(`/?controller=api&action=obtenerPuntos&id_usuario=${idUsuario}`, {
+        fetch(`http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=obtenerPuntos&id_usuario=${idUsuario}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,51 +35,44 @@ function actualizarPuntosEnInterfaz(puntos) {
 
 // Función para procesar la compra con la opción de utilizar puntos
 function procesarCompra() {
-
     let idUsuario = document.getElementById('idUsr').value;
     let cantidadFinal = document.getElementById('cantidadFinal').value;
     let puntosElement = document.getElementById('puntos-usuario');
     let puntosDisponibles = parseInt(puntosElement.textContent.split(': ')[1]);
 
-    //Añado parametros para añadir la propina en la base de datos
+    // Añado parámetros para añadir la propina en la base de datos
     let montoPropinaInput = document.getElementById('montoPropina');
     let totalConPropina = document.getElementById('totalConPropina').innerHTML;
 
     let porcentajePropina = parseInt(montoPropinaInput.value) + '%';
     let totalConPropinaElement = parseFloat(totalConPropina.replace('€', '').trim());
-   
-    //Añado los articulos del pedido
+
+    // Añado los artículos del pedido
     let cantidadArt = document.getElementById('total').value;
     let articulos = [];
 
-    //Declaro variable para generar el QR
-
-    // forech de cantidatArt para recoger los valos cantidad'i' precio'i' id'i'
+    // Foreach de cantidadArt para recoger los valores cantidad'i' precio'i' id'i'
     for (let i = 0; i < cantidadArt; i++) {
-        
         let precioArtElement = document.getElementById('precio' + i).innerText;
         let precioArt = parseFloat(precioArtElement.replace('€', '').trim());
-        let unidadesArt = document.getElementById('cantidad'+i).innerText;
-        let idArt = document.getElementById('id'+i).value;
+        let unidadesArt = document.getElementById('cantidad' + i).innerText;
+        let idArt = document.getElementById('id' + i).value;
 
         let art = {
-            precioArt:precioArt,
-            unidadesArt:unidadesArt,
-            idArt:idArt
+            precioArt: precioArt,
+            unidadesArt: unidadesArt,
+            idArt: idArt
         };
         articulos.push(art);
     }
 
-
-
     if (puntosDisponibles > 0) {
         const utilizarPuntos = confirm("¿Quieres utilizar puntos en esta compra?");
-        
+
         if (utilizarPuntos) {
             let puntosUtilizados = parseInt(prompt("¿Cuántos puntos quieres utilizar?"));
-        
+
             if (puntosUtilizados >= 0 && puntosUtilizados <= puntosDisponibles) {
-                
                 let reviewData = {
                     idUsuario: idUsuario,
                     cantidadFinal: cantidadFinal,
@@ -87,12 +80,12 @@ function procesarCompra() {
                     puntosUtilizados: puntosUtilizados,
                     porcentajePropina: porcentajePropina,
                     totalConPropinaElement: totalConPropinaElement,
-                    articulos:articulos
+                    articulos: articulos
                 };
                 let reviewJSON = JSON.stringify(reviewData);
 
                 // Realiza la petición POST para utilizar puntos en el servidor
-                fetch(`/?controller=api&action=obtenerPuntos`, {
+                fetch(`http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=obtenerPuntos`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -103,29 +96,40 @@ function procesarCompra() {
                 .then(data => {
                     console.log(data);
                     // Actualiza los puntos en el front-end después de la compra
-                    obtenerPuntosUsuario();     
+                    obtenerPuntosUsuario();
                     var puntosGanados = data.puntosGanados;
                     var idPedido = data.idPedido;
                     generarCodigoQR(idPedido);
 
-                    document.getElementById('bloqueCompra').style.display = 'none';
-                    document.getElementById('qr-code').style.display = 'block';
+                    //document.getElementById('bloqueCompra').style.display = 'none';
+                    //document.getElementById('qr-code').style.display = 'block';
 
-                      notie.alert({
-                        type: 1, 
-                        text: `Has utilizado ${puntosUtilizados} puntos y has ganado ${puntosGanados} puntos.`,
-                        time: 4,
-                      })
-                  
+                    Swal.fire({
+                        title: 'Código QR generado',
+                        html: `<div id="swal-qr-code"></div><p>Has utilizado ${puntosUtilizados} puntos y has ganado ${puntosGanados} puntos.</p>`,
+                        showCloseButton: true,
+                        didOpen: () => {
+                            const qrElement = document.getElementById('swal-qr-code');
+                            new QRCode(qrElement, {
+                                text: `http://localhost/firaBarcelona/firaBarcelona/?controller=api&id=${idPedido}`,
+                                width: 128,
+                                height: 128,
+                            });
+                        },
+                        didClose: () => {
+                            // Aquí se enviará el formulario al confirmar el cierre de la ventana emergente
+                            document.getElementById('finalizarCompra').submit();
+                        }
+                    });
                 })
                 .catch(error => console.error('Error al no utilizar puntos:', error));
             } else {
                 notie.alert({
-                    type: 3, 
-                    text: 'Cantidad de puntos no valida',
-                  })
+                    type: 3,
+                    text: 'Cantidad de puntos no válida',
+                });
             }
-        }else{
+        } else {
             let reviewData = {
                 idUsuario: idUsuario,
                 cantidadFinal: cantidadFinal,
@@ -133,11 +137,11 @@ function procesarCompra() {
                 puntosUtilizados: 0,
                 porcentajePropina: porcentajePropina,
                 totalConPropinaElement: totalConPropinaElement,
-                articulos:articulos
+                articulos: articulos
             };
             let reviewJSON = JSON.stringify(reviewData);
             // Realiza la petición POST para utilizar puntos en el servidor
-            fetch(`/?controller=api&action=obtenerPuntos`, {
+            fetch(`http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=obtenerPuntos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -148,24 +152,35 @@ function procesarCompra() {
             .then(data => {
                 console.log(data);
                 // Actualiza los puntos en el front-end después de la compra
-                obtenerPuntosUsuario();     
+                obtenerPuntosUsuario();
                 var puntosGanados = data.puntosGanados;
                 var idPedido = data.idPedido;
                 generarCodigoQR(idPedido);
 
-                document.getElementById('bloqueCompra').style.display = 'none';
-                document.getElementById('qr-code').style.display = 'block';
+                //document.getElementById('bloqueCompra').style.display = 'none';
+                //document.getElementById('qr-code').style.display = 'block';
 
-                  notie.alert({
-                    type: 1, 
-                    text: `Has ganado ${puntosGanados} puntos.`,
-                  })
-    
+                Swal.fire({
+                    title: 'Código QR generado',
+                    html: `<div id="swal-qr-code"></div><p>Has ganado ${puntosGanados} puntos.</p>`,
+                    showCloseButton: true,
+                    didOpen: () => {
+                        const qrElement = document.getElementById('swal-qr-code');
+                        new QRCode(qrElement, {
+                            text: `http://localhost/firaBarcelona/firaBarcelona/?controller=api&id=${idPedido}`,
+                            width: 128,
+                            height: 128,
+                        });
+                    },
+                    didClose: () => {
+                        // Aquí se enviará el formulario al confirmar el cierre de la ventana emergente
+                        document.getElementById('finalizarCompra').submit();
+                    }
+                });
             })
             .catch(error => console.error('Error al no utilizar puntos:', error));
         }
-    }else{
-        
+    } else {
         let reviewData = {
             idUsuario: idUsuario,
             cantidadFinal: cantidadFinal,
@@ -173,11 +188,11 @@ function procesarCompra() {
             puntosUtilizados: 0,
             porcentajePropina: porcentajePropina,
             totalConPropinaElement: totalConPropinaElement,
-            articulos:articulos
+            articulos: articulos
         };
         let reviewJSON = JSON.stringify(reviewData);
         // Realiza la petición POST para utilizar puntos en el servidor
-        fetch(`/?controller=api&action=obtenerPuntos`, {
+        fetch(`http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=obtenerPuntos`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -188,33 +203,44 @@ function procesarCompra() {
         .then(data => {
             console.log(data);
             // Actualiza los puntos en el front-end después de la compra
-            obtenerPuntosUsuario();     
+            obtenerPuntosUsuario();
             var puntosGanados = data.puntosGanados;
             var idPedido = data.idPedido;
             generarCodigoQR(idPedido);
 
-            document.getElementById('bloqueCompra').style.display = 'none';
-            document.getElementById('qr-code').style.display = 'block';
+            //document.getElementById('bloqueCompra').style.display = 'none';
+            //document.getElementById('qr-code').style.display = 'block';
 
-              notie.alert({
-                type: 1, 
-                text: `Has ganado ${puntosGanados} puntos.`,
-              })          
+            Swal.fire({
+                title: 'Código QR generado',
+                html: `<div id="swal-qr-code"></div><p>Has ganado ${puntosGanados} puntos.</p>`,
+                showCloseButton: true,
+                didOpen: () => {
+                    const qrElement = document.getElementById('swal-qr-code');
+                    new QRCode(qrElement, {
+                        text: `http://localhost/firaBarcelona/firaBarcelona/?controller=api&id=${idPedido}`,
+                        width: 128,
+                        height: 128,
+                    });
+                },
+                didClose: () => {
+                    // Aquí se enviará el formulario al confirmar el cierre de la ventana emergente
+                    document.getElementById('finalizarCompra').submit();
+                }
+            });
         })
         .catch(error => console.error('Error al no utilizar puntos:', error));
-
     }
-    setTimeout(function () {
-        document.getElementById('finalizarCompra').submit();
-    }, 8000);
 }
 
+// Función para generar el código QR
 function generarCodigoQR(idPedido) {
-    // Crear el código QR utilizando QRcodejs
-    const qr = new QRCode(document.getElementById('qr-code'), {
-        text: `ikercandalija.bernat2024.es/?controller=api&action=mostrar_pedido?id=${idPedido}`, 
+    const qrCodeContainer = document.getElementById('qr-code');
+    qrCodeContainer.innerHTML = ''; // Limpiar el contenido previo del contenedor QR
+
+    const qr = new QRCode(qrCodeContainer, {
+        text: `http://localhost/firaBarcelona/firaBarcelona/?controller=api&id=${idPedido}`,
         width: 128,
         height: 128,
     });
-    
 }

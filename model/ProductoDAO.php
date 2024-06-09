@@ -216,60 +216,62 @@ class ProductoDAO{
         $con->close();
 
     }
-    public static function getPedidos($idPedido){
+    public static function getPedidos($idPedido) {
         $con = db::connect();
+        error_log("Fetching pedido with idPedido: $idPedido");
         $stmt = $con->prepare("SELECT * FROM `pedidos` WHERE `idPedido` = ? ");
         $stmt->bind_param("i", $idPedido);
         $stmt->execute();
         $result = $stmt->get_result();
-        $res =[];
-
+        $res = [];
+    
         if ($result->num_rows > 0) {
             // Obtener datos de la base de datos
             while ($row = $result->fetch_assoc()) {
                 $res[] = array(
                     'idPedido' => $row['idPedido'],
-                    'idUsr' => $row['idUsr'],  
+                    'idUsr' => $row['idUsr'],
                     'precioTotal' => $row['precioTotal'],
                     'propina' => $row['propina'],
-                    'totalConPropina' => $row['totalConPropina'],  
+                    'totalConPropina' => $row['totalConPropina'],
                     'fecha' => $row['fecha'],
                     'resena' => $row['resena']
                 );
             }
         }
-
+    
+        error_log("Fetched pedido: " . print_r($res, true));
         return $res;
-
+    
         $con->close();
-
     }
-    public static function getProductosPedido($idPedido){
+    
+    public static function getProductosPedido($idPedido) {
         $con = db::connect();
+        error_log("Fetching products for pedido with idPedido: $idPedido");
         $stmt = $con->prepare("SELECT * FROM `pedidos_articulos` WHERE `idPedido` = ? ");
         $stmt->bind_param("i", $idPedido);
         $stmt->execute();
         $result = $stmt->get_result();
-        $res =[];
-
+        $res = [];
+    
         if ($result->num_rows > 0) {
             // Obtener datos de la base de datos
             while ($row = $result->fetch_assoc()) {
-                $res[] = array(                    
+                $res[] = array(
                     'idArticulo' => $row['idArticulo'],
                     'idPedido' => $row['idPedido'],
-                    'idProducto' => $row['idProducto'],  
+                    'idProducto' => $row['idProducto'],
                     'cantidad' => $row['cantidad'],
                     'precioUnidad' => $row['precioUnidad']
                 );
             }
         }
-
-
+    
+        error_log("Fetched products: " . print_r($res, true));
         return $res;
-
+    
         $con->close();
-
     }
 
 }

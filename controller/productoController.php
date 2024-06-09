@@ -1,5 +1,6 @@
 <?php
     //Creamos el controlador de pedidos
+    include_once 'config/db.php';
     include_once 'model/ProductoDAO.php';
     include_once 'model/Pedido.php';
     include_once 'utils/CalculadoraPrecios.php';

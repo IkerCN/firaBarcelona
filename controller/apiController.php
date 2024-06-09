@@ -1,28 +1,18 @@
 <?php
-    include_once 'config/db.php';
-    include_once 'model/usuariosDAO.php';
-    include_once 'model/productoDAO.php';
-    include_once 'utils/CalculadoraPrecios.php';
+include_once 'config/db.php';
+include_once 'model/usuariosDAO.php';
+include_once 'model/productoDAO.php';
+include_once 'utils/CalculadoraPrecios.php';
 
-class apiController{
-    public function index(){       
+class apiController {
+    public function index() {
         $idPedido = $_GET['id'] ?? null;
-                
-        include_once 'views/header.php';
 
         if ($idPedido !== null) {
-
-        $pedido = ProductoDAO::getPedidos($idPedido);
-        $productos = ProductoDAO::getProductosPedido($idPedido);
-
-        include_once 'views/header.php';
-        include_once 'views/pedidoQR.php';
-        include_once 'views/footer.php';
-
-        }else{
-            header("Location:". URL ."?controller=producto");
+            $this->mostrar_pedido($idPedido);
+        } else {
+            header("Location:http://localhost/firaBarcelona/firaBarcelona/?controller=producto");
         }
-        include_once 'views/footer.php';
     }
 
     function buscar_pedido()
@@ -176,29 +166,22 @@ class apiController{
         return;
     }
 
-    function mostrar_pedido() {
-        // Obtener el ID del pedido desde la solicitud GET
-        $idPedido = $_GET['id'] ?? null;
-    
-        if ($idPedido !== null) {
-            // Aquí debes recuperar la información del pedido desde tu base de datos
-            // y devolverla como un JSON
-            $pedidoInfo = obtenerInformacionPedido($idPedido);
-    
-            if ($pedidoInfo !== null) {
-                header('Content-Type: application/json');
-                echo json_encode($pedidoInfo);
-            } else {
-                http_response_code(404);
-                echo json_encode(['error' => 'Pedido no encontrado']);
-            }
-        } else {
-            http_response_code(400);
-            echo json_encode(['error' => 'ID de pedido no proporcionado en la solicitud']);
-        }
+    function mostrar_pedido($idPedido) {
+
+        // Obtener el pedido y productos asociados
+        $pedido = ProductoDAO::getPedidos($idPedido);
+        $productos = ProductoDAO::getProductosPedido($idPedido);
+        
+        // Incluir la vista del pedido
+        include_once 'views/header.php';
+        include_once 'views/pedidoQR.php'; 
+        include_once 'views/footer.php';
+
     }
     
+
     function obtenerInformacionPedido($idPedido) {
+        error_log("Fetching order details for idPedido: $idPedido");
 
         $pedido = ProductoDAO::getPedidos($idPedido);
         $productos = ProductoDAO::getProductosPedido($idPedido);
@@ -206,9 +189,9 @@ class apiController{
         $pedidoInfo = [
             'pedido' => $pedido,
             'productos' => $productos
-            // Otros campos del pedido...
         ];
-    
+
+        error_log("Order details: " . print_r($pedidoInfo, true));
         return $pedidoInfo;
     }
 
@@ -218,7 +201,7 @@ class apiController{
     
         if ($idPedido !== null) {
             // Aquí debes generar la URL del QR y devolverla como un JSON
-            $qrUrl = "/?controller=api&action=mostrar_pedido?id=${idPedido}";
+            $qrUrl = "http://localhost/firaBarcelona/firaBarcelona/?controller=api&action=mostrar_pedido?id=${idPedido}";
     
             header('Content-Type: application/json');
             echo json_encode(['qrUrl' => $qrUrl]);

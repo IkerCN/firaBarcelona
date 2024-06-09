@@ -26,4 +26,3 @@ function handlePropinaChange() {
     totalConPropinaElement.textContent = totalConPropina.toFixed(2) + ' €';
 
 }
-
