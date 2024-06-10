@@ -71,7 +71,7 @@
             <button type="submit" class="btn btn-primary mt-2"> CREAR PRODUCTO </button>
           </form>
           <form action="<?=URL ."?controller=producto&action=editarProducto"?>" method="post" class="mt-2">
-            <button type="submit" class="btn btn-primary mt-2"> MODIFICAR PRODUCTOS </button>
+            <button type="submit" class="btn btn-primary mt-2"> MODIFICAR Y ELIMINAR PRODUCTOS </button>
           </form>
         </div>
       </div>

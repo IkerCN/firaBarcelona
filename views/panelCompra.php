@@ -35,7 +35,7 @@
                     <td class="col-2 text-center">
                         <form action="<?=URL ."?controller=producto&action=compra"?>" method="post" class="form-inline">
                             <button type="submit" class="btn btn-sm btn-light" name="del" value="<?=$pos?>"> - </button>
-                            <div class="mx-2"><p id="cantidad<?=$pos?>"> <?= $pedido->getCantidad()?></p> </div> 
+                            <div class="mx-2 mt-3"><p id="cantidad<?=$pos?>"> <?= $pedido->getCantidad()?></p> </div> 
                             <button type="submit" class="btn btn-sm btn-light" name="add" value="<?=$pos?>"> + </button>
                         </form>
                     </td>
